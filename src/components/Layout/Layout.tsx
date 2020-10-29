@@ -4,7 +4,6 @@ import {Board} from '../Board';
 import {Greeting} from '../Greeting';
 import {Switch, Route} from 'react-router-dom'
 import {nanoid} from 'nanoid'
-import update from 'immutability-helper';
 
 import './Layout.scss'
 
@@ -95,13 +94,18 @@ export class Layout extends React.Component<any, any> {
         })
     }
 
-    addNewCard = (idList: string, idCard: string, titleCard: string): void => {
-        let indexList;
+    getIndexList = (idList: string) => {
+        let indexList :number = -1;
         this.state.lists.forEach((el: { title: string, id: string, cards: [] }, ind: number) => {
             if (el.id === idList) {
                 indexList = ind
             }
         })
+        return indexList;
+    }
+
+    addNewCard = (idList: string, idCard: string, titleCard: string): void => {
+        const indexList = this.getIndexList(idList);
 
         const addCardsData = {
             ...this.state.lists[indexList as any],
@@ -118,6 +122,19 @@ export class Layout extends React.Component<any, any> {
         })
     }
 
+    changeTitleList = (idList: string, titleList: string):void => {
+        const indexList = this.getIndexList(idList);
+        const listState = this.state.lists
+        const newList = {
+            ...this.state.lists[indexList as any],
+            title: titleList
+        }
+        listState.splice(indexList, 1, newList)
+        this.setState({
+            lists: listState
+        })
+    }
+
 
     render() {
         const {profile, lists} = this.state
@@ -128,7 +145,7 @@ export class Layout extends React.Component<any, any> {
                     {(profile.name === '' && <Greeting handlerName={this.handlerName}/>)}
                     <Switch>
                         <Route exact path="/board">
-                            <Board addNewCard={this.addNewCard} lists={lists}/>
+                            <Board addNewCard={this.addNewCard} changeTitleList={this.changeTitleList} lists={lists}/>
                         </Route>
                     </Switch>
                 </div>
