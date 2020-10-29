@@ -1,0 +1,8 @@
+.board {
+  height: calc(100vh - 56px - 10px - 10px);
+  padding: 10px;
+  background-color: #a9a9e7;
+  overflow-y: auto;
+  overflow-x: hidden; }
+
+/*# sourceMappingURL=Board.css.map */

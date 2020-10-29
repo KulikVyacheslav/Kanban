@@ -1,0 +1,11 @@
+$mtContent: '10px';
+$mbContent: '10px';
+$hNavBar: '56px';
+
+.board {
+  height: calc(100vh - #{$hNavBar} - #{$mtContent} - #{$mbContent}); //100vh - h NavBar - margin t/b content
+  padding: 10px;
+  background-color: #a9a9e7;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

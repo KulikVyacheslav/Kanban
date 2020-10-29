@@ -1,0 +1,23 @@
+.greeting {
+  width: 100%;
+  min-height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .greeting__content {
+    width: 600px;
+    height: 600px;
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+  .greeting__form {
+    width: 80%; }
+
+/*# sourceMappingURL=Greeting.css.map */

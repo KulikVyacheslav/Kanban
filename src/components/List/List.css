@@ -1,0 +1,23 @@
+.list {
+  width: 350px;
+  height: 100%;
+  display: inline-block; }
+  .list__wrapper {
+    border-radius: 5px;
+    padding: 10px;
+    max-height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column; }
+  .list_margin-right {
+    margin-right: 30px; }
+  .list_bgc_gray {
+    background-color: #d5d5d5; }
+  .list__title p {
+    color: gray;
+    font-weight: bold; }
+  .list__cards {
+    overflow-y: auto;
+    margin-bottom: 10px; }
+
+/*# sourceMappingURL=List.css.map */

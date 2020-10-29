@@ -1,0 +1,16 @@
+.comments {
+  display: flex;
+  height: 30px;
+
+  &__count {
+    margin-left: 5px;
+  }
+  &__img {
+    img {
+      width: 20px;
+      height: 20px;
+    }
+
+  }
+
+}

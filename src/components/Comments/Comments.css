@@ -1,0 +1,10 @@
+.comments {
+  display: flex;
+  height: 30px; }
+  .comments__count {
+    margin-left: 5px; }
+  .comments__img img {
+    width: 20px;
+    height: 20px; }
+
+/*# sourceMappingURL=Comments.css.map */
