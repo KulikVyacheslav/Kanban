@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.scss';
-import {Layout} from 'components/Layout';
+import {App} from './App';
 import {BrowserRouter as Router} from "react-router-dom";
 
 
@@ -11,7 +11,7 @@ import reportWebVitals from './reportWebVitals';
 ReactDOM.render(
     <Router>
         <React.StrictMode>
-            <Layout/>
+            <App/>
         </React.StrictMode>
     </Router>
     , document.getElementById('root')
