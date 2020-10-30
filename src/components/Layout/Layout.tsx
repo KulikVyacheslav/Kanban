@@ -144,6 +144,10 @@ export class Layout extends React.Component<any, any> {
         localStorage.setItem(params, JSON.stringify(this.state[params]));
     }
 
+    testFunctional = () => {
+        console.log('test feature')
+    }
+
 
 
     render() {
