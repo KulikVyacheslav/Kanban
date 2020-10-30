@@ -59,22 +59,14 @@ export class Layout extends React.Component<any, any> {
             ]
         }
 
-    }
+        this.handlerName = this.handlerName.bind(this)
+        this.getIndexList = this.getIndexList.bind(this)
+        this.addNewCard = this.addNewCard.bind(this)
+        this.changeTitleList = this.changeTitleList.bind(this)
+        this.saveToLocalStorage = this.saveToLocalStorage.bind(this)
+        this.saveToLocalStorageTruly = this.saveToLocalStorageTruly.bind(this)
 
-    saveToLocalStorage = (params: string): void => {
-        const localVar = JSON.parse(localStorage.getItem(params) as string)
-        if (!localVar) {
-            localStorage.setItem(params, JSON.stringify(this.state[params]))
-        } else {
-            this.setState({
-                [params]: localVar
-            })
-        }
     }
-    saveToLocalStorageTruly = (params: string): void => {
-        localStorage.setItem(params, JSON.stringify(this.state[params]))
-    }
-
     componentDidMount(): void {
         this.saveToLocalStorage('profile')
         this.saveToLocalStorage('lists')
@@ -85,16 +77,16 @@ export class Layout extends React.Component<any, any> {
         this.saveToLocalStorageTruly('lists')
     }
 
-    handlerName = (name: string): void => {
-        this.setState({
+    handlerName(name: string): void {
+        this.setState((state: any) => ({
             profile: {
-                ...this.state.profile,
+                ...state.profile,
                 name: name,
             }
-        })
+        }))
     }
 
-    getIndexList = (idList: string) => {
+    getIndexList(idList: string) {
         let indexList :number = -1;
         this.state.lists.forEach((el: { title: string, id: string, cards: [] }, ind: number) => {
             if (el.id === idList) {
@@ -104,7 +96,7 @@ export class Layout extends React.Component<any, any> {
         return indexList;
     }
 
-    addNewCard = (idList: string, idCard: string, titleCard: string): void => {
+    addNewCard(idList: string, idCard: string, titleCard: string): void {
         const indexList = this.getIndexList(idList);
 
         const addCardsData = {
@@ -122,7 +114,7 @@ export class Layout extends React.Component<any, any> {
         })
     }
 
-    changeTitleList = (idList: string, titleList: string):void => {
+    changeTitleList(idList: string, titleList: string):void {
         const indexList = this.getIndexList(idList);
         const listState = this.state.lists
         const newList = {
@@ -133,6 +125,20 @@ export class Layout extends React.Component<any, any> {
         this.setState({
             lists: listState
         })
+    }
+
+    saveToLocalStorage(params: string): void {
+        const localVar = JSON.parse(localStorage.getItem(params) as string)
+        if (!localVar) {
+            localStorage.setItem(params, JSON.stringify(this.state[params]))
+        } else {
+            this.setState({
+                [params]: localVar
+            })
+        }
+    }
+    saveToLocalStorageTruly(params: string): void {
+        localStorage.setItem(params, JSON.stringify(this.state[params]))
     }
 
 

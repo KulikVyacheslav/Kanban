@@ -10,12 +10,10 @@ interface CardProps {
     }
 }
 
-export const Card: React.FC<CardProps> = (props) => {
-
-    const {card} = props
+export const Card: React.FC<CardProps> = ({card}) => {
 
     return (
-        <div className='cards'>
+        <div className="cards">
             <div className="cards__title">
                 <p>{card.title}</p>
             </div>
