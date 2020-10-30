@@ -1,7 +1,7 @@
 import React, {useState, useCallback} from 'react';
-import {nanoid} from 'nanoid'
-import './List.scss'
-import {Card} from '../Card'
+import {nanoid} from 'nanoid';
+import './List.scss';
+import {Card} from '../Card';
 import {ToggleAddButton, ToggleTitleList} from "../../interfaces/interfaces";
 
 interface ListProps {
@@ -28,47 +28,47 @@ export const List: React.FC<ListProps> = ({
                                               changeTitleList
                                           }) => {
 
-    const [titleCards, setTitleCards] = useState<string>('')
-    const [titleLists, setTitleLists] = useState<string>(list.title)
+    const [titleCards, setTitleCards] = useState<string>('');
+    const [titleLists, setTitleLists] = useState<string>(list.title);
 
     const handlerBtnAdd = useCallback((event: React.MouseEvent<HTMLButtonElement>): void => {
-        event.stopPropagation()
-        onAddBtnClick(event.currentTarget.id)
-    }, [onAddBtnClick])
+        event.stopPropagation();
+        onAddBtnClick(event.currentTarget.id);
+    }, [onAddBtnClick]);
 
     const handlerTitleList = useCallback((event: React.MouseEvent<HTMLDivElement>): void => {
-        console.log(list.id)
-        event.stopPropagation()
-        onChTitleClick(list.id)
-    }, [list.id, onChTitleClick])
+        console.log(list.id);
+        event.stopPropagation();
+        onChTitleClick(list.id);
+    }, [list.id, onChTitleClick]);
 
     const handlerBtnAddToList = useCallback((event: React.MouseEvent<HTMLButtonElement>): void => {
-        event.preventDefault()
-        addNewCard(list.id, nanoid(), titleCards)
-        onAddBtnClick(null)
-    }, [addNewCard, onAddBtnClick, list.id, titleCards])
+        event.preventDefault();
+        addNewCard(list.id, nanoid(), titleCards);
+        onAddBtnClick(null);
+    }, [addNewCard, onAddBtnClick, list.id, titleCards]);
 
     const handlerInputTitleCards = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        setTitleCards(prevState => event.target.value)
-    }, [])
+        setTitleCards(prevState => event.target.value);
+    }, []);
 
     const handlerInputTitleLists = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        event.preventDefault()
-        setTitleLists(prevState => event.target.value)
-        changeTitleList(list.id, event.target.value)
-    }, [list.id, changeTitleList])
+        event.preventDefault();
+        setTitleLists(prevState => event.target.value);
+        changeTitleList(list.id, event.target.value);
+    }, [list.id, changeTitleList]);
 
     const handlerStopPropagation = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
-        event.stopPropagation()
-    }, [])
+        event.stopPropagation();
+    }, []);
 
     const handlerOnSubmitForm = useCallback((event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-    }, [])
+        event.preventDefault();
+    }, []);
 
     const handlerSaveOnEnter = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-        (event.key === 'Enter' && onChTitleClick(null))
-    }, [onChTitleClick])
+        (event.key === 'Enter' && onChTitleClick(null));
+    }, [onChTitleClick]);
 
     return (
 
@@ -97,7 +97,7 @@ export const List: React.FC<ListProps> = ({
 
                 <div className="list__cards">
                     {list.cards.map((card: any) => {
-                        return <Card key={card.id} card={card}/>
+                        return <Card key={card.id} card={card}/>;
                     })
                     }
                 </div>
@@ -124,5 +124,5 @@ export const List: React.FC<ListProps> = ({
                 )}
             </div>
         </div>
-    )
-}
+    );
+};

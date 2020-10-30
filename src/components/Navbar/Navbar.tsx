@@ -1,14 +1,14 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import logo from './logo.svg'
+import logo from './logo.svg';
 
 export const Navbar: React.FC = () => {
     return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <a className="navbar-brand" href="#">
+        <Link className="navbar-brand" to="/">
             <img src={logo} alt="logo"/>
-                Kanban
-            </a>
+            Kanban
+        </Link>
         <ul className="navbar-nav">
             <li className="nav-item mr-2">
                 <Link to="/">Home</Link>
@@ -23,5 +23,5 @@ export const Navbar: React.FC = () => {
     </nav>
 
     );
-}
+};
 

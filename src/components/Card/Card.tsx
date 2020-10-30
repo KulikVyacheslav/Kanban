@@ -1,6 +1,6 @@
 import React from "react";
 import './Card.scss';
-import {Comments}  from '../Comments'
+import {Comments}  from '../Comments';
 
 interface CardProps {
     card: {
@@ -20,10 +20,10 @@ export const Card: React.FC<CardProps> = ({card}) => {
             <div className="cards__components">
                 {
                     card.comments.map( (comment: any) => {
-                        return <Comments key={comment.id} comment={comment}/>
+                        return <Comments key={comment.id} comment={comment}/>;
                     } )
                 }
             </div>
         </div>
-    )
-}
+    );
+};

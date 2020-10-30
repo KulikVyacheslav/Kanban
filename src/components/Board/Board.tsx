@@ -1,6 +1,6 @@
 import React, {useState, useCallback} from 'react';
-import {List} from '../List'
-import './Board.scss'
+import {List} from '../List';
+import './Board.scss';
 import {ToggleAddButton, ToggleTitleList} from "../../interfaces/interfaces";
 
 interface BoardProps {
@@ -16,12 +16,12 @@ export const Board: React.FC<BoardProps> = ({ lists, addNewCard, changeTitleList
     const [toggleAddCardForm, setToggleAddCardForm] = useState<ToggleAddButton>({
         state: false,
         id: null
-    })
+    });
 
     const [toggleTitleList, setToggleTitleList] = useState<ToggleTitleList>({
         state: false,
         id: null
-    })
+    });
 
 
     const resetStateToggleUniversal = useCallback((toggleSet: React.Dispatch<React.SetStateAction<ToggleTitleList>>, toggleTarget: ToggleAddButton): void => {
@@ -29,14 +29,14 @@ export const Board: React.FC<BoardProps> = ({ lists, addNewCard, changeTitleList
             toggleSet({
                 state: false,
                 id: null
-            })
+            });
         }
-    }, [])
+    }, []);
 
     const resetStateToggle = useCallback((id: string | null): void => {
-        resetStateToggleUniversal(setToggleAddCardForm, toggleAddCardForm)
-        resetStateToggleUniversal(setToggleTitleList, toggleTitleList)
-    }, [resetStateToggleUniversal, setToggleAddCardForm, toggleAddCardForm, setToggleTitleList, toggleTitleList])
+        resetStateToggleUniversal(setToggleAddCardForm, toggleAddCardForm);
+        resetStateToggleUniversal(setToggleTitleList, toggleTitleList);
+    }, [resetStateToggleUniversal, setToggleAddCardForm, toggleAddCardForm, setToggleTitleList, toggleTitleList]);
 
 
     const toggleHandlerUniversal = useCallback((id: string | null, toggleTarget: ToggleAddButton, toggleSet: React.Dispatch<React.SetStateAction<ToggleTitleList>>): void => {
@@ -45,32 +45,32 @@ export const Board: React.FC<BoardProps> = ({ lists, addNewCard, changeTitleList
                 return {
                     ...prevState,
                     id
-                }
-            })
+                };
+            });
         } else {
             toggleSet(prevState => {
                 return {
                     state: !prevState.state,
                     id
-                }
-            })
+                };
+            });
         }
         if (id === null) {
-            resetStateToggleUniversal(toggleSet, toggleTarget)
+            resetStateToggleUniversal(toggleSet, toggleTarget);
         }
-    }, [resetStateToggleUniversal])
+    }, [resetStateToggleUniversal]);
 
     const toggleHandlerAddButton = useCallback((id: string | null): void => {
         toggleHandlerUniversal(id, toggleAddCardForm, setToggleAddCardForm);
-    }, [toggleHandlerUniversal, toggleAddCardForm, setToggleAddCardForm])
+    }, [toggleHandlerUniversal, toggleAddCardForm, setToggleAddCardForm]);
 
     const toggleHandlerTitleList = useCallback((id: string | null): void => {
         toggleHandlerUniversal(id, toggleTitleList, setToggleTitleList);
-    }, [toggleHandlerUniversal, toggleTitleList, setToggleTitleList])
+    }, [toggleHandlerUniversal, toggleTitleList, setToggleTitleList]);
 
     const handlerResetState = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
-        resetStateToggle(event.currentTarget.className)
-    }, [resetStateToggle])
+        resetStateToggle(event.currentTarget.className);
+    }, [resetStateToggle]);
 
     return (
         <div onClick={handlerResetState}
@@ -80,10 +80,10 @@ export const Board: React.FC<BoardProps> = ({ lists, addNewCard, changeTitleList
                     return <List changeTitleList={changeTitleList} addNewCard={addNewCard}
                                  toggleAddCardForm={toggleAddCardForm} toggleTitleList={toggleTitleList}
                                  onChTitleClick={toggleHandlerTitleList} onAddBtnClick={toggleHandlerAddButton}
-                                 key={list.id} list={list}/>
+                                 key={list.id} list={list}/>;
                 })
             }
 
         </div>
-    )
-}
+    );
+};
