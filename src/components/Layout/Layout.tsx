@@ -144,18 +144,6 @@ export class Layout extends React.Component<any, any> {
         localStorage.setItem(params, JSON.stringify(this.state[params]));
     }
 
-    testFunctional = () => {
-        console.log('test feature');
-    }
-
-
-    testFunction2 = () => {
-        console.log('test2');
-    }
-
-    functionForRelease101 = () => {
-        console.log('This is release 1.0.1');
-    }
 
     render() {
         const {profile, lists} = this.state;
