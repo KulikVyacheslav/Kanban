@@ -145,10 +145,13 @@ export class Layout extends React.Component<any, any> {
     }
 
     testFunctional = () => {
-        console.log('test feature')
+        console.log('test feature');
     }
 
 
+    testFunction2 = () => {
+        console.log('test2');
+    }
 
     render() {
         const {profile, lists} = this.state;
