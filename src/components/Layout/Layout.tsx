@@ -19,43 +19,35 @@ export class Layout extends React.Component<any, any> {
             lists: [
                 {
                     title: 'TODO',
-                    id: nanoid(),
-                    cards: [
-                        {
-                            title: 'Test card',
-                            id: nanoid(),
-                            comments: [
-                                {
-                                    author: '',
-                                    id: nanoid(),
-                                    text: 'Test comments'
-                                }
-                            ]
-                        }
-                    ]
+                    id: 'adc123s',
                 },
                 {
                     title: 'In Progress',
                     id: nanoid(),
-                    cards: [
-                        {
-                            title: 'Test card 2',
-                            id: nanoid(),
-                            comments: []
-                        }
-                    ],
                 },
                 {
                     title: 'Testing',
                     id: nanoid(),
-                    cards: [],
                 },
                 {
                     title: 'Done',
                     id: nanoid(),
-                    cards: [],
                 }
-
+            ],
+            cards: [
+                {
+                    id: 'asdas213sad',
+                    idList: 'adc123s',
+                    title:  'Test card'
+                }
+            ],
+            comments: [
+                {
+                    author: 'WebDev',
+                    id: 'dasdasd123213saasd',
+                    idCard: 'asdas213sad',
+                    text: 'Test comments'
+                }
             ]
         };
 
