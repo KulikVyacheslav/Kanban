@@ -8,8 +8,14 @@ interface ListProps {
     list: {
         title: string,
         id: string,
-        cards: []
     },
+    cards: [],
+    comments: [{
+        author: string,
+        id: string,
+        idCard: string,
+        text: string
+    }],
     onAddBtnClick(id: string | null): void,
     onChTitleClick(id: string | null): void,
     toggleAddCardForm: ToggleAddButton,
@@ -20,6 +26,8 @@ interface ListProps {
 
 export const List: React.FC<ListProps> = ({
                                               list,
+                                              cards,
+                                              comments,
                                               onAddBtnClick,
                                               onChTitleClick,
                                               toggleAddCardForm,
@@ -96,9 +104,11 @@ export const List: React.FC<ListProps> = ({
                 )}
 
                 <div className="list__cards">
-                    {list.cards.map((card: any) => {
-                        return <Card key={card.id} card={card}/>;
-                    })
+                    {(cards.length > 0 &&
+                        cards.map((card: any) => {
+                        const commentsCurrentCard: any = comments.filter( comments => comments.idCard === card.id);
+                        return <Card comments={commentsCurrentCard} key={card.id} card={card}/>;
+                    }))
                     }
                 </div>
 

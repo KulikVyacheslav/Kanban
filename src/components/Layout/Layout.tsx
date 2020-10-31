@@ -23,7 +23,7 @@ export class Layout extends React.Component<any, any> {
                 },
                 {
                     title: 'In Progress',
-                    id: nanoid(),
+                    id: 'adc123s123',
                 },
                 {
                     title: 'Testing',
@@ -39,6 +39,16 @@ export class Layout extends React.Component<any, any> {
                     id: 'asdas213sad',
                     idList: 'adc123s',
                     title:  'Test card'
+                },
+                {
+                    id: 'asdas213sadasd',
+                    idList: 'adc123s',
+                    title:  'Test card 2'
+                },
+                {
+                    id: 'asdas213sadaas',
+                    idList: 'adc123s123',
+                    title:  'Test card 2'
                 }
             ],
             comments: [
@@ -47,6 +57,12 @@ export class Layout extends React.Component<any, any> {
                     id: 'dasdasd123213saasd',
                     idCard: 'asdas213sad',
                     text: 'Test comments'
+                },
+                {
+                    author: 'WebDev',
+                    id: 'dasdasd123213saasd',
+                    idCard: 'asdas213sad',
+                    text: 'Test comments 2'
                 }
             ]
         };
@@ -63,11 +79,15 @@ export class Layout extends React.Component<any, any> {
     componentDidMount(): void {
         this.saveToLocalStorage('profile');
         this.saveToLocalStorage('lists');
+        this.saveToLocalStorage('cards');
+        this.saveToLocalStorage('comments');
     }
 
     componentDidUpdate(): void {
         this.saveToLocalStorageTruly('profile');
         this.saveToLocalStorageTruly('lists');
+        this.saveToLocalStorageTruly('cards');
+        this.saveToLocalStorageTruly('comments');
     }
 
     handlerName(name: string): void {
@@ -90,19 +110,14 @@ export class Layout extends React.Component<any, any> {
     }
 
     addNewCard(idList: string, idCard: string, titleCard: string): void {
-        const indexList = this.getIndexList(idList);
-        const addCardsData = {
-            ...this.state.lists[indexList as any],
-            cards: this.state.lists[indexList as any].cards.concat([{
-                title: titleCard,
-                id: idCard,
-                comments: []
-            }] as any)
-        };
-        const listState = this.state.lists;
-        listState.splice(indexList, 1, addCardsData);
-        this.setState({
-            lists: listState
+        this.setState((state: any) => {
+            return {
+                cards: state.cards.concat([{
+                    id: idCard,
+                    idList,
+                    title: titleCard
+                }])
+            };
         });
     }
 
@@ -138,7 +153,7 @@ export class Layout extends React.Component<any, any> {
 
 
     render() {
-        const {profile, lists} = this.state;
+        const {profile, lists,  cards, comments} = this.state;
         return (
             <>
                 <Navbar/>
@@ -146,7 +161,13 @@ export class Layout extends React.Component<any, any> {
                     {(profile.name === '' && <Greeting handlerName={this.handlerName}/>)}
                     <Switch>
                         <Route exact path="/board">
-                            <Board addNewCard={this.addNewCard} changeTitleList={this.changeTitleList} lists={lists}/>
+                            <Board
+                                addNewCard={this.addNewCard}
+                                changeTitleList={this.changeTitleList}
+                                lists={lists}
+                                cards={cards}
+                                comments={comments}
+                            />
                         </Route>
                     </Switch>
                 </div>

@@ -5,12 +5,25 @@ import {ToggleAddButton, ToggleTitleList} from "../../interfaces/interfaces";
 
 interface BoardProps {
     lists: [],
+    cards: [
+        {
+            id: string,
+            idList: string,
+            title: string
+        }
+    ],
+    comments: [{
+        author: string,
+        id: string,
+        idCard: string,
+        text: string
+    }],
     addNewCard(idList: string, idCard: string, titleCard: string): void,
     changeTitleList(idList: string, titleList: string): void
 }
 
 
-export const Board: React.FC<BoardProps> = ({ lists, addNewCard, changeTitleList }) => {
+export const Board: React.FC<BoardProps> = ({ lists, cards, comments,  addNewCard, changeTitleList }) => {
 
 
     const [toggleAddCardForm, setToggleAddCardForm] = useState<ToggleAddButton>({
@@ -75,12 +88,22 @@ export const Board: React.FC<BoardProps> = ({ lists, addNewCard, changeTitleList
     return (
         <div onClick={handlerResetState}
              className="board">
-            {
-                lists.map((list: any) => {
-                    return <List changeTitleList={changeTitleList} addNewCard={addNewCard}
-                                 toggleAddCardForm={toggleAddCardForm} toggleTitleList={toggleTitleList}
-                                 onChTitleClick={toggleHandlerTitleList} onAddBtnClick={toggleHandlerAddButton}
-                                 key={list.id} list={list}/>;
+            {lists.map((list: any) => {
+
+                const cardsCurrentList: any = cards.filter( (card) => card.idList === list.id);
+
+                    return <List
+                        changeTitleList={changeTitleList}
+                        addNewCard={addNewCard}
+                        toggleAddCardForm={toggleAddCardForm}
+                        toggleTitleList={toggleTitleList}
+                        onChTitleClick={toggleHandlerTitleList}
+                        onAddBtnClick={toggleHandlerAddButton}
+                        key={list.id}
+                        list={list}
+                        cards={cardsCurrentList}
+                        comments={comments}
+                    />;
                 })
             }
 
