@@ -7,7 +7,40 @@ import {nanoid} from 'nanoid';
 
 import './Layout.scss';
 
-export class Layout extends React.Component<any, any> {
+export interface IProfile {
+    name: string,
+    id: string
+}
+
+export interface ILists {
+    title: string,
+    id: string
+}
+
+export interface ICards {
+    id: string,
+    idList: string,
+    title:  string
+}
+
+export interface IComments {
+    author: string,
+    id: string,
+    idCard: string,
+    text: string
+}
+
+export interface IState {
+    profile: IProfile,
+    lists: Array<ILists>,
+    cards: Array<ICards>,
+    comments: Array<IComments>
+}
+
+type ParamsState = "profile" | "lists" | "cards" | "comments"
+
+
+export class Layout extends React.Component<any, IState> {
     constructor(props: any) {
         super(props);
 
@@ -68,7 +101,6 @@ export class Layout extends React.Component<any, any> {
         };
 
         this.handlerName = this.handlerName.bind(this);
-        this.getIndexList = this.getIndexList.bind(this);
         this.addNewCard = this.addNewCard.bind(this);
         this.changeTitleList = this.changeTitleList.bind(this);
         this.saveToLocalStorage = this.saveToLocalStorage.bind(this);
@@ -91,7 +123,7 @@ export class Layout extends React.Component<any, any> {
     }
 
     handlerName(name: string): void {
-        this.setState((state: any) => ({
+        this.setState((state) => ({
             profile: {
                 ...state.profile,
                 name: name,
@@ -99,18 +131,8 @@ export class Layout extends React.Component<any, any> {
         }));
     }
 
-    getIndexList(idList: string) {
-        let indexList: number = -1;
-        this.state.lists.forEach((el: { title: string, id: string, cards: [] }, ind: number) => {
-            if (el.id === idList) {
-                indexList = ind;
-            }
-        });
-        return indexList;
-    }
-
     addNewCard(idList: string, idCard: string, titleCard: string): void {
-        this.setState((state: any) => {
+        this.setState((state) => {
             return {
                 cards: state.cards.concat([{
                     id: idCard,
@@ -122,7 +144,7 @@ export class Layout extends React.Component<any, any> {
     }
 
     changeTitleList(idList: string, titleList: string): void {
-        const newList = this.state.lists.map((listItem: any) => {
+        const newList = this.state.lists.map((listItem) => {
             if (listItem.id === idList) {
                 return {
                     ...listItem,
@@ -136,11 +158,13 @@ export class Layout extends React.Component<any, any> {
         });
     }
 
-    saveToLocalStorage(params: string): void {
+    saveToLocalStorage(params: ParamsState ): void {
         const localVar = JSON.parse(localStorage.getItem(params) as string);
         if (!localVar) {
             localStorage.setItem(params, JSON.stringify(this.state[params]));
         } else {
+            // @ts-ignore
+            //TODO
             this.setState({
                 [params]: localVar
             });
@@ -148,6 +172,8 @@ export class Layout extends React.Component<any, any> {
     }
 
     saveToLocalStorageTruly(params: string): void {
+        // @ts-ignore
+        //TODO
         localStorage.setItem(params, JSON.stringify(this.state[params]));
     }
 

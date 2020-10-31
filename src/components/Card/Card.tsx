@@ -1,20 +1,11 @@
 import React from "react";
 import './Card.scss';
 import {Comments}  from '../Comments';
+import { ICards, IComments} from '../Layout/Layout';
 
 interface CardProps {
-    card: {
-        title: string,
-        id: string
-    },
-    comments: [
-        {
-            author: string,
-            id: string,
-            idCard: string,
-            text: string
-        }
-    ]
+    card: ICards,
+    comments: Array<IComments>
 }
 
 export const Card: React.FC<CardProps> = ({card, comments}) => {

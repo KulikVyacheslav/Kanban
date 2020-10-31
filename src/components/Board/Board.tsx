@@ -2,22 +2,12 @@ import React, {useState, useCallback} from 'react';
 import {List} from '../List';
 import './Board.scss';
 import {ToggleAddButton, ToggleTitleList} from "../../interfaces/interfaces";
+import { ILists, ICards, IComments} from '../Layout/Layout';
 
 interface BoardProps {
-    lists: [],
-    cards: [
-        {
-            id: string,
-            idList: string,
-            title: string
-        }
-    ],
-    comments: [{
-        author: string,
-        id: string,
-        idCard: string,
-        text: string
-    }],
+    lists: Array<ILists>,
+    cards: Array<ICards>,
+    comments: Array<IComments>,
     addNewCard(idList: string, idCard: string, titleCard: string): void,
     changeTitleList(idList: string, titleList: string): void
 }
