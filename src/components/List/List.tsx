@@ -3,19 +3,12 @@ import {nanoid} from 'nanoid';
 import './List.scss';
 import {Card} from '../Card';
 import {ToggleAddButton, ToggleTitleList} from "../../interfaces/interfaces";
+import { ILists, ICards, IComments} from '../Layout/Layout';
 
 interface ListProps {
-    list: {
-        title: string,
-        id: string,
-    },
-    cards: [],
-    comments: [{
-        author: string,
-        id: string,
-        idCard: string,
-        text: string
-    }],
+    list: ILists,
+    cards: Array<ICards>,
+    comments: Array<IComments>,
     onAddBtnClick(id: string | null): void,
     onChTitleClick(id: string | null): void,
     toggleAddCardForm: ToggleAddButton,
