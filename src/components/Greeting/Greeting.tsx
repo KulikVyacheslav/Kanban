@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import './Greeting.scss'
+import './Greeting.scss';
 
 interface GreetingProps {
     handlerName(name: string): void
@@ -7,18 +7,18 @@ interface GreetingProps {
 
 export const Greeting: React.FC<GreetingProps> = (props) => {
 
-    const {handlerName} = props
-    const [name, setName] = useState<string>('')
+    const {handlerName} = props;
+    const [name, setName] = useState<string>('');
 
     const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         setName( prevState => {
-            return prevState = event.target.value
-        })
-    }
+            return prevState = event.target.value;
+        });
+    };
     const handlerSave = (event: React.MouseEvent) => {
-        event.preventDefault()
-        handlerName(name)
-    }
+        event.preventDefault();
+        handlerName(name);
+    };
 
     return (
         <div className='greeting'>
@@ -37,5 +37,5 @@ export const Greeting: React.FC<GreetingProps> = (props) => {
                 </form>
             </div>
         </div>
-    )
-}
+    );
+};

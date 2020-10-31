@@ -5,12 +5,19 @@ import {Comments}  from '../Comments';
 interface CardProps {
     card: {
         title: string,
-        id: string,
-        comments: []
-    }
+        id: string
+    },
+    comments: [
+        {
+            author: string,
+            id: string,
+            idCard: string,
+            text: string
+        }
+    ]
 }
 
-export const Card: React.FC<CardProps> = ({card}) => {
+export const Card: React.FC<CardProps> = ({card, comments}) => {
 
     return (
         <div className="cards">
@@ -18,10 +25,8 @@ export const Card: React.FC<CardProps> = ({card}) => {
                 <p>{card.title}</p>
             </div>
             <div className="cards__components">
-                {
-                    card.comments.map( (comment: any) => {
-                        return <Comments key={comment.id} comment={comment}/>;
-                    } )
+                {comments.length > 0 &&
+                    <Comments commentsCount={comments.length}/>
                 }
             </div>
         </div>
