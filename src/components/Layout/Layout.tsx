@@ -2,7 +2,8 @@ import React, {} from 'react';
 import {Navbar} from '../Navbar';
 import {Board} from '../Board';
 import {Greeting} from '../Greeting';
-import {Switch, Route} from 'react-router-dom';
+import {CardModal} from '../CardModal';
+import {Switch, Route, withRouter} from 'react-router-dom';
 import {nanoid} from 'nanoid';
 
 import './Layout.scss';
@@ -40,7 +41,7 @@ export interface IState {
 type ParamsState = "profile" | "lists" | "cards" | "comments"
 
 
-export class Layout extends React.Component<any, IState> {
+export class LayoutComponent extends React.Component<any, IState> {
     constructor(props: any) {
         super(props);
 
@@ -93,7 +94,7 @@ export class Layout extends React.Component<any, IState> {
                 },
                 {
                     author: 'WebDev',
-                    id: 'dasdasd123213saasd',
+                    id: 'dasdasdasd12asda',
                     idCard: 'asdas213sad',
                     text: 'Test comments 2'
                 }
@@ -180,12 +181,14 @@ export class Layout extends React.Component<any, IState> {
 
     render() {
         const {profile, lists,  cards, comments} = this.state;
+        const {location} = this.props;
+        const isModal = location.state?.modal;
         return (
             <>
                 <Navbar/>
                 <div className="content">
                     {(profile.name === '' && <Greeting handlerName={this.handlerName}/>)}
-                    <Switch>
+                    <Switch location={isModal || location}>
                         <Route exact path="/board">
                             <Board
                                 addNewCard={this.addNewCard}
@@ -196,9 +199,12 @@ export class Layout extends React.Component<any, IState> {
                             />
                         </Route>
                     </Switch>
+                    {isModal && <Route path="/cards/:id" children={<CardModal comments={comments} cards={cards}/>} />}
                 </div>
             </>
         );
     }
 }
+
+export const Layout = withRouter(LayoutComponent);
 
