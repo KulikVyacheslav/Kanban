@@ -96,7 +96,6 @@ export const Board: React.FC<BoardProps> = ({ lists, cards, comments,  addNewCar
                     />;
                 })
             }
-
         </div>
     );
 };
