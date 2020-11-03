@@ -53,3 +53,8 @@ export interface RenderCards {
 export interface RenderComments {
     (commentsLength: number): void
 }
+
+export interface RenderCommentsModal {
+    (commentId: string,
+     comment: IComments): void
+}

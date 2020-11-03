@@ -6,19 +6,20 @@ import cardIcon from './card.svg';
 import description from './description.svg';
 import commentsIcon from './comments.svg';
 import { CommentsModal } from 'components/CommentsModal';
-import {ICards, IComments, ILists} from "../../interfaces/interfaces";
+import {ICards, IComments, ILists, RenderCommentsModal} from "../../interfaces/interfaces";
 
 interface CardModalProps {
     cards: Array<ICards>,
     comments: Array<IComments>,
     lists: Array<ILists>,
+    render: RenderCommentsModal
 }
 
 interface ParamTypes {
     id: string
 }
 
-export const CardModal: React.FC<CardModalProps> = ({ cards, comments, lists }) => {
+export const CardModal: React.FC<CardModalProps> = ({ cards, comments, lists, render }) => {
 
     const history = useHistory();
     const params = useParams<ParamTypes>();
@@ -66,7 +67,7 @@ export const CardModal: React.FC<CardModalProps> = ({ cards, comments, lists }) 
                         </div>
                         <div className="card-modal__comment-field">
                             {commentsCard.length > 0 &&
-                            commentsCard.map( (comment) => <CommentsModal key={comment.id} comment={comment} />)
+                            commentsCard.map( (comment) => render(comment.id, comment))
                             }
                         </div>
                     </div>

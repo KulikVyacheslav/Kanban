@@ -9,8 +9,9 @@ import {Switch, Route, withRouter} from 'react-router-dom';
 import {nanoid} from 'nanoid';
 import {ICards, IComments, ILists, IProfile, ToggleAddButton, ToggleTitleList} from '../../interfaces/interfaces';
 import './Layout.scss';
-import {IDBoardState} from "../../types/types";
+import {IDBoardState, ParamsState} from "../../types/types";
 import {Comments} from "../Comments";
+import {CommentsModal} from "../CommentsModal";
 
 
 export interface IState {
@@ -19,8 +20,6 @@ export interface IState {
     cards: Array<ICards>,
     comments: Array<IComments>
 }
-
-type ParamsState = "profile" | "lists" | "cards" | "comments"
 
 
 export class LayoutComponent extends React.Component<any, IState> {
@@ -93,6 +92,7 @@ export class LayoutComponent extends React.Component<any, IState> {
         this.saveToLocalStorageTruly = this.saveToLocalStorageTruly.bind(this);
         this.renderList = this.renderList.bind(this);
         this.renderCard = this.renderCard.bind(this);
+        this.renderCommentsModal = this.renderCommentsModal.bind(this);
 
     }
 
@@ -203,6 +203,10 @@ export class LayoutComponent extends React.Component<any, IState> {
         return <Comments commentsCount={commentsLength}/>;
     }
 
+    renderCommentsModal(commentId: string, comment: IComments) {
+        return <CommentsModal key={commentId} comment={comment} />;
+    }
+
 
     render() {
         const {profile, lists, cards, comments} = this.state;
@@ -223,7 +227,7 @@ export class LayoutComponent extends React.Component<any, IState> {
                         </Route>
                     </Switch>
                     {isModal &&
-                    <Route path="/cards/:id" children={<CardModal lists={lists} comments={comments} cards={cards}/>}/>}
+                    <Route path="/cards/:id" children={<CardModal lists={lists} comments={comments} cards={cards} render={this.renderCommentsModal}/>}/>}
                 </div>
             </>
         );
