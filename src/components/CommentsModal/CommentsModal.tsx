@@ -7,9 +7,9 @@ interface CommentsModalProps {
 }
 
 export const CommentsModal: React.FC<CommentsModalProps> = ({ comment }) => {
-    console.log(comment);
+
     return (
-        <div className="comments-modal">
+        <div className="comments-modal comments-modal_mt">
             <div className="comments-modal__author">
                 <h5 className="comments-modal__author-title">
                     {comment.author}
@@ -19,7 +19,7 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ comment }) => {
                 <p>{comment.text}</p>
             </div>
             <div className="comments-modal__delete">
-                <a href='/'>Delete</a>
+                <a href=''>Delete</a>
             </div>
 
         </div>

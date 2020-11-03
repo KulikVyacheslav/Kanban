@@ -9,16 +9,67 @@
   display: flex;
   justify-content: center;
   align-items: center; }
+  .card-modal_ml5 {
+    margin-left: 5px; }
+  .card-modal_ml-img {
+    margin-left: calc(40px + 10px); }
   .card-modal__content {
-    width: 600px;
-    height: 600px;
+    width: 800px;
+    min-height: 600px;
     background-color: white;
     border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    justify-content: space-between; }
+  .card-modal__data {
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    flex-grow: 0.9; }
+  .card-modal__title {
+    display: flex; }
+    .card-modal__title h3 {
+      margin-left: 5px; }
+  .card-modal__img {
+    width: 40px;
+    height: 40px; }
+  .card-modal__list-title {
+    margin-left: calc(40px + 10px);
+    margin-bottom: 20px; }
+    .card-modal__list-title h6 {
+      color: #8d8d8d; }
+  .card-modal__form form {
+    display: flex;
     align-items: center;
-    position: relative; }
+    margin-top: 5px;
+    margin-bottom: 5px; }
+  .card-modal__form textarea {
+    width: 80%;
+    padding: 10px; }
+  .card-modal__form-btn {
+    margin-left: 5px; }
+  .card-modal__description-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; }
+    .card-modal__description-title h6 {
+      margin-left: 5px;
+      font-size: 20px; }
+  .card-modal__description-field {
+    min-height: 60px; }
+  .card-modal__comment-title {
+    display: flex;
+    align-self: center; }
+    .card-modal__comment-title h6 {
+      margin-left: 5px;
+      font-size: 20px; }
+  .card-modal__action {
+    flex-grow: 0.1;
+    align-self: flex-end; }
+  .card-modal__delete {
+    text-align: center; }
   .card-modal__close {
     position: absolute;
     background-color: rgba(203, 203, 203, 0.56);

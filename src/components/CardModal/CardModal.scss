@@ -1,4 +1,6 @@
 $closeButton: 40px;
+$iconSize: 40px;
+$marginLeftFromIcon: 5px;
 
 .card-modal {
   width: 100%;
@@ -12,16 +14,117 @@ $closeButton: 40px;
   justify-content: center;
   align-items: center;
 
+  &_ml5  {
+    margin-left: $marginLeftFromIcon;
+  }
+
+  &_ml-img {
+    margin-left: calc(#{$iconSize} + 10px);
+  }
+
   &__content {
-    width: 600px;
-    height: 600px;
+    width: 800px;
+    min-height: 600px;
     background-color: white;
     border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    justify-content: space-between;
+  }
+
+  &__data {
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+    flex-grow: 0.9;
+  }
+
+  &__title {
+    display: flex;
+
+    h3 {
+      margin-left: $marginLeftFromIcon;
+    }
+  }
+
+  &__img {
+    width: $iconSize;
+    height: $iconSize;
+  }
+
+  &__list-title {
+    margin-left: calc(#{$iconSize} + 10px);
+    margin-bottom: 20px;
+
+    h6 {
+      color: #8d8d8d;
+    }
+  }
+
+  &__form {
+    form {
+      display: flex;
+      align-items: center;
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+
+    textarea {
+      width: 80%;
+      padding: 10px;
+    }
+
+    &-btn {
+      margin-left: 5px;
+    }
+  }
+
+  &__description {
+
+    &-title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+
+      h6 {
+        margin-left: $marginLeftFromIcon;
+        font-size: 20px;
+      }
+    }
+
+    &-field {
+      min-height: 60px;
+    }
+
+
+  }
+
+  &__comment {
+
+    &-title {
+      display: flex;
+      align-self: center;
+
+      h6 {
+        margin-left: $marginLeftFromIcon;
+        font-size: 20px;
+      }
+    }
+    &-field {
+
+    }
+
+  }
+
+  &__action {
+    flex-grow: 0.1;
+    align-self: flex-end;
+  }
+
+  &__delete {
+    text-align: center;
   }
 
   &__close {
@@ -35,6 +138,7 @@ $closeButton: 40px;
     display: flex;
     justify-content: center;
     align-self: center;
+
     img {
       width: 60%;
     }

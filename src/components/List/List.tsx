@@ -49,7 +49,7 @@ export const List: React.FC<ListProps> = ({
         onAddBtnClick(null);
     }, [addNewCard, onAddBtnClick, list.id, titleCards]);
 
-    const handlerInputTitleCards = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const handlerInputTitleCards = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setTitleCards(prevState => event.target.value);
     }, []);
 
@@ -106,22 +106,19 @@ export const List: React.FC<ListProps> = ({
                 </div>
 
                 {toggleAddCardForm.state && list.id === toggleAddCardForm.id ? (
-                    <div>
+                    <div className="list__from">
                         <form>
-                            <div className="form-group">
-                                <input
-                                    type="text"
-                                    placeholder="Enter a title for this card..."
-                                    onChange={handlerInputTitleCards}
-                                />
-                            </div>
+                            <textarea
+                                placeholder="Enter a title for this card..."
+                                onChange={handlerInputTitleCards}
+                            />
                             <button id={list.id} onClick={handlerBtnAddToList} className="btn btn-primary">Add card
                             </button>
                         </form>
                     </div>
                 ) : (
                     <div className="list__add-card">
-                        <button id={list.id} onClick={handlerBtnAdd}>Add another card
+                        <button id={list.id} className="btn btn-light" onClick={handlerBtnAdd}>Add another card
                         </button>
                     </div>
                 )}

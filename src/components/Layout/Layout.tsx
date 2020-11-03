@@ -21,7 +21,8 @@ export interface ILists {
 export interface ICards {
     id: string,
     idList: string,
-    title:  string
+    title:  string,
+    description: string,
 }
 
 export interface IComments {
@@ -72,17 +73,20 @@ export class LayoutComponent extends React.Component<any, IState> {
                 {
                     id: 'asdas213sad',
                     idList: 'adc123s',
-                    title:  'Test card'
+                    title:  'Test card',
+                    description: 'Test desc'
                 },
                 {
                     id: 'asdas213sadasd',
                     idList: 'adc123s',
-                    title:  'Test card 2'
+                    title:  'Test card 2',
+                    description: 'Test desc'
                 },
                 {
                     id: 'asdas213sadaas',
                     idList: 'adc123s123',
-                    title:  'Test card 2'
+                    title:  'Test card 2',
+                    description: 'Test desc'
                 }
             ],
             comments: [
@@ -138,7 +142,8 @@ export class LayoutComponent extends React.Component<any, IState> {
                 cards: state.cards.concat([{
                     id: idCard,
                     idList,
-                    title: titleCard
+                    title: titleCard,
+                    description: ''
                 }])
             };
         });
@@ -199,7 +204,7 @@ export class LayoutComponent extends React.Component<any, IState> {
                             />
                         </Route>
                     </Switch>
-                    {isModal && <Route path="/cards/:id" children={<CardModal comments={comments} cards={cards}/>} />}
+                    {isModal && <Route path="/cards/:id" children={<CardModal lists={lists} comments={comments} cards={cards}/>} />}
                 </div>
             </>
         );
