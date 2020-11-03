@@ -1,3 +1,17 @@
-
+.comments-modal_mt {
+  margin-top: 20px; }
+.comments-modal__author h5 {
+  font-size: 15px;
+  font-weight: bold; }
+.comments-modal__text p {
+  display: inline;
+  padding: 5px 10px;
+  background-color: #d5d5d5;
+  border-radius: 10px; }
+.comments-modal__delete {
+  font-size: 15px; }
+  .comments-modal__delete a {
+    color: #8d8d8d;
+    margin-left: 5px; }
 
 /*# sourceMappingURL=CommentsModal.css.map */

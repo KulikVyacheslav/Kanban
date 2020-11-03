@@ -1,8 +1,8 @@
-import React from "react";
+import React, {useCallback} from "react";
 import './Card.scss';
 import {Comments} from '../Comments';
-import {ICards, IComments} from '../Layout/Layout';
-import {Link, useLocation} from "react-router-dom";
+import { ICards, IComments  } from '../Layout/Layout';
+import { useLocation, useHistory } from "react-router-dom";
 
 interface CardProps {
     card: ICards,
@@ -11,16 +11,15 @@ interface CardProps {
 
 export const Card: React.FC<CardProps> = ({card, comments}) => {
     let location = useLocation();
+    let {push} = useHistory();
+
+    const handleClickCard = useCallback(() => {
+        push(`/cards/${card.id}`,{ modal: location });
+    }, [push, location, card.id]);
+    
     return (
 
-            <div className="cards">
-                <Link
-                    to={{
-                        pathname: `/cards/${card.id}`,
-                        state: { modal: location }
-                    }}
-                    className='cards__link cards_color-gray'
-                >
+            <div onClick={handleClickCard} className="cards">
                 <div className="cards__title">
                     <p>{card.title}</p>
                 </div>
@@ -29,7 +28,6 @@ export const Card: React.FC<CardProps> = ({card, comments}) => {
                     <Comments commentsCount={comments.length}/>
                     }
                 </div>
-                </Link>
             </div>
 
     );
