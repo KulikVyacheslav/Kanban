@@ -1,16 +1,16 @@
 import React, {useState, useCallback} from 'react';
-import {List} from '../List';
 import './Board.scss';
-import {ToggleAddButton, ToggleTitleList} from "../../interfaces/interfaces";
+import {ToggleAddButton, ToggleTitleList, RenderLists, ILists, ICards } from "../../interfaces/interfaces";
+import {IDBoardState} from "../../types/types";
 
 interface BoardProps {
-    lists: [],
-    addNewCard(idList: string, idCard: string, titleCard: string): void,
-    changeTitleList(idList: string, titleList: string): void
+    lists: Array<ILists>,
+    cards: Array<ICards>,
+    render: RenderLists
 }
 
 
-export const Board: React.FC<BoardProps> = ({ lists, addNewCard, changeTitleList }) => {
+export const Board: React.FC<BoardProps> = ({ lists, cards, render }) => {
 
 
     const [toggleAddCardForm, setToggleAddCardForm] = useState<ToggleAddButton>({
@@ -33,13 +33,13 @@ export const Board: React.FC<BoardProps> = ({ lists, addNewCard, changeTitleList
         }
     }, []);
 
-    const resetStateToggle = useCallback((id: string | null): void => {
+    const resetStateToggle = useCallback((id: IDBoardState): void => {
         resetStateToggleUniversal(setToggleAddCardForm, toggleAddCardForm);
         resetStateToggleUniversal(setToggleTitleList, toggleTitleList);
     }, [resetStateToggleUniversal, setToggleAddCardForm, toggleAddCardForm, setToggleTitleList, toggleTitleList]);
 
 
-    const toggleHandlerUniversal = useCallback((id: string | null, toggleTarget: ToggleAddButton, toggleSet: React.Dispatch<React.SetStateAction<ToggleTitleList>>): void => {
+    const toggleHandlerUniversal = useCallback((id: IDBoardState, toggleTarget: ToggleAddButton, toggleSet: React.Dispatch<React.SetStateAction<ToggleTitleList>>): void => {
         if (id !== toggleTarget.id && toggleTarget.id !== null) {
             toggleSet(prevState => {
                 return {
@@ -60,11 +60,11 @@ export const Board: React.FC<BoardProps> = ({ lists, addNewCard, changeTitleList
         }
     }, [resetStateToggleUniversal]);
 
-    const toggleHandlerAddButton = useCallback((id: string | null): void => {
+    const toggleHandlerAddButton = useCallback((id: IDBoardState): void => {
         toggleHandlerUniversal(id, toggleAddCardForm, setToggleAddCardForm);
     }, [toggleHandlerUniversal, toggleAddCardForm, setToggleAddCardForm]);
 
-    const toggleHandlerTitleList = useCallback((id: string | null): void => {
+    const toggleHandlerTitleList = useCallback((id: IDBoardState): void => {
         toggleHandlerUniversal(id, toggleTitleList, setToggleTitleList);
     }, [toggleHandlerUniversal, toggleTitleList, setToggleTitleList]);
 
@@ -75,15 +75,24 @@ export const Board: React.FC<BoardProps> = ({ lists, addNewCard, changeTitleList
     return (
         <div onClick={handlerResetState}
              className="board">
-            {
-                lists.map((list: any) => {
-                    return <List changeTitleList={changeTitleList} addNewCard={addNewCard}
-                                 toggleAddCardForm={toggleAddCardForm} toggleTitleList={toggleTitleList}
-                                 onChTitleClick={toggleHandlerTitleList} onAddBtnClick={toggleHandlerAddButton}
-                                 key={list.id} list={list}/>;
+            {lists.map((list: any) => {
+
+                const cardsCurrentList: Array<ICards> = cards.filter( (card) => card.idList === list.id);
+                    // return <List
+                    //     changeTitleList={changeTitleList}
+                    //     addNewCard={addNewCard}
+                    //     toggleAddCardForm={toggleAddCardForm}
+                    //     toggleTitleList={toggleTitleList}
+                    //     onChTitleClick={toggleHandlerTitleList}
+                    //     onAddBtnClick={toggleHandlerAddButton}
+                    //     key={list.id}
+                    //     list={list}
+                    //     cards={cardsCurrentList}
+                    //     comments={comments}
+                    // />;
+                return render(toggleAddCardForm, toggleTitleList, toggleHandlerTitleList, toggleHandlerAddButton, list.id, list, cardsCurrentList);
                 })
             }
-
         </div>
     );
 };

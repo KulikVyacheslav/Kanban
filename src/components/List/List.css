@@ -19,5 +19,14 @@
   .list__cards {
     overflow-y: auto;
     margin-bottom: 10px; }
+  .list__from form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+  .list__from textarea {
+    width: 100%;
+    margin-bottom: 10px; }
+  .list__from button {
+    align-self: flex-start; }
 
 /*# sourceMappingURL=List.css.map */
