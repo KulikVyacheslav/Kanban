@@ -3,11 +3,7 @@ import './Comments.scss';
 import commentsIcons from './comments.svg';
 
 interface CommentsProps {
-    // comment: {
-    //     author: string,
-    //     id: string,
-    //     text: string
-    // }
+
     commentsCount: number
 }
 
