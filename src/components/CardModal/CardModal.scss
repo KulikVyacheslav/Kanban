@@ -4,17 +4,14 @@ $marginLeftFromIcon: 5px;
 
 .card-modal {
   width: 100%;
-  min-height: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  overflow: hidden;
+  overflow: auto;
   position: fixed;
   top: 0;
   left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
-  &_ml5  {
+  &_ml5 {
     margin-left: $marginLeftFromIcon;
   }
 
@@ -23,6 +20,8 @@ $marginLeftFromIcon: 5px;
   }
 
   &__content {
+
+    margin: 100px auto;
     width: 800px;
     min-height: 600px;
     background-color: white;
@@ -47,6 +46,7 @@ $marginLeftFromIcon: 5px;
     h3 {
       margin-left: $marginLeftFromIcon;
     }
+
     input {
       width: 80%;
       margin-left: $marginLeftFromIcon;
@@ -92,6 +92,10 @@ $marginLeftFromIcon: 5px;
 
   &__description {
 
+    &-empty {
+      color: #898989;
+    }
+
     &-title {
       display: flex;
       align-items: center;
@@ -131,6 +135,7 @@ $marginLeftFromIcon: 5px;
         font-size: 20px;
       }
     }
+
     &-field {
 
     }

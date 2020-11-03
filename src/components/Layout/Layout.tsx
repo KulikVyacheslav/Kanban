@@ -87,7 +87,13 @@ export class LayoutComponent extends React.Component<any, IState> {
 
         this.handlerName = this.handlerName.bind(this);
         this.addNewCard = this.addNewCard.bind(this);
+        this.deleteCard = this.deleteCard.bind(this);
+        this.addNewComment = this.addNewComment.bind(this);
+        this.deleteComment = this.deleteComment.bind(this);
         this.changeTitleList = this.changeTitleList.bind(this);
+        this.changeCommentText = this.changeCommentText.bind(this);
+        this.changeTitleCards = this.changeTitleCards.bind(this);
+        this.changeDescriptionCard = this.changeDescriptionCard.bind(this);
         this.saveToLocalStorage = this.saveToLocalStorage.bind(this);
         this.saveToLocalStorageTruly = this.saveToLocalStorageTruly.bind(this);
         this.renderList = this.renderList.bind(this);
@@ -132,6 +138,55 @@ export class LayoutComponent extends React.Component<any, IState> {
         });
     }
 
+    deleteCard(idCard: string): void {
+
+        this.setState(state => {
+           return {
+               cards: state.cards.filter(card => card.id !== idCard)
+           };
+        });
+    }
+
+    addNewComment(idCard: string, text: string): void {
+
+        const newComment = {
+            id: nanoid(),
+            author: this.state.profile.name,
+            idCard,
+            text
+        };
+        this.setState(state => {
+            return {
+                comments: state.comments.concat([newComment])
+            };
+        });
+
+    }
+
+    deleteComment(idComment: string): void {
+        this.setState(state => {
+            return {
+                comments: state.comments.filter(comment => comment.id !== idComment)
+            };
+        });
+    }
+
+    changeCommentText(idComment: string, text: string): void {
+        this.setState(state => {
+            return {
+             comments: state.comments.map( comment => {
+                 if (comment.id === idComment){
+                     return {
+                         ...comment,
+                         text
+                     };
+                 }
+                 return comment;
+             })
+            };
+        });
+    }
+
     changeTitleList(idList: string, titleList: string): void {
         const newList = this.state.lists.map((listItem) => {
             if (listItem.id === idList) {
@@ -144,6 +199,41 @@ export class LayoutComponent extends React.Component<any, IState> {
         });
         this.setState({
             lists: newList
+        });
+    }
+
+    changeTitleCards(idCard: string, title: string): void {
+        const newCards = this.state.cards.map( card => {
+           if (card.id === idCard) {
+               return {
+                   ...card,
+                   title
+               };
+
+           }
+            return card;
+        });
+
+        this.setState({
+            cards: newCards
+
+        });
+    }
+
+    changeDescriptionCard(idCard: string, description: string):  void {
+        const newCards = this.state.cards.map( card => {
+            if (card.id === idCard) {
+                return {
+                    ...card,
+                    description
+                };
+
+            }
+            return card;
+        });
+
+        this.setState({
+            cards: newCards
         });
     }
 
@@ -204,7 +294,12 @@ export class LayoutComponent extends React.Component<any, IState> {
     }
 
     renderCommentsModal(commentId: string, comment: IComments) {
-        return <CommentsModal key={commentId} comment={comment} />;
+        return <CommentsModal
+            key={commentId}
+            comment={comment}
+            deleteComment={this.deleteComment}
+            changeCommentText={this.changeCommentText}
+        />;
     }
 
 
@@ -227,7 +322,7 @@ export class LayoutComponent extends React.Component<any, IState> {
                         </Route>
                     </Switch>
                     {isModal &&
-                    <Route path="/cards/:id" children={<CardModal lists={lists} comments={comments} cards={cards} render={this.renderCommentsModal}/>}/>}
+                    <Route path="/cards/:id" children={<CardModal changeTitleCards={this.changeTitleCards} changeDescriptionCard={this.changeDescriptionCard} deleteCard={this.deleteCard} addNewComment={this.addNewComment} lists={lists} comments={comments} cards={cards} render={this.renderCommentsModal}/>}/>}
                 </div>
             </>
         );

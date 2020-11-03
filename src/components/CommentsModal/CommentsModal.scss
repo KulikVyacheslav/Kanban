@@ -12,6 +12,12 @@
   }
 
   &__text {
+
+    textarea {
+      min-height: 40px;
+      width: 80%;
+    }
+
     p {
 
       display: inline;

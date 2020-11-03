@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import './CardModal.scss';
 import close from './close.svg';
@@ -8,17 +8,21 @@ import commentsIcon from './comments.svg';
 import {ICards, IComments, ILists, RenderCommentsModal} from "../../interfaces/interfaces";
 
 interface CardModalProps {
+    changeTitleCards(idCard: string | undefined, title: string): void,
+    changeDescriptionCard(idCard: string | undefined, description: string): void,
+    addNewComment(idCard: string | undefined, text: string): void,
+    deleteCard(idCard: string | undefined): void,
     cards: Array<ICards>,
     comments: Array<IComments>,
     lists: Array<ILists>,
-    render: RenderCommentsModal
+    render: RenderCommentsModal,
 }
 
 interface ParamTypes {
     id: string
 }
 
-export const CardModal: React.FC<CardModalProps> = ({cards, comments, lists, render}) => {
+export const CardModal: React.FC<CardModalProps> = ({changeTitleCards, changeDescriptionCard, addNewComment, deleteCard, cards, comments, lists, render}) => {
 
     const history = useHistory();
     const params = useParams<ParamTypes>();
@@ -26,8 +30,9 @@ export const CardModal: React.FC<CardModalProps> = ({cards, comments, lists, ren
     const commentsCard = comments.filter(comment => comment.idCard === params.id);
     const listCards = lists.find(list => list.id === card?.idList);
 
-    const [toggleTitleCard, setToggleTitleCard] = useState(false);
-    const [toggleDescCard, setToggleDescCard] = useState(false);
+    const [toggleTitleCard, setToggleTitleCard] = useState<boolean>(false);
+    const [toggleDescCard, setToggleDescCard] = useState<boolean>(false);
+    const [newComment, setNewComment] = useState<string>('');
 
 
     const handlerCloseModal = useCallback(() => {
@@ -45,6 +50,40 @@ export const CardModal: React.FC<CardModalProps> = ({cards, comments, lists, ren
         (toggleDescCard && setToggleDescCard(false));
     }, [toggleTitleCard, toggleDescCard]);
 
+    const handlerSendComment = useCallback((event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (event.ctrlKey && event.key === 'Enter') {
+            addNewComment(card?.id, newComment);
+            setNewComment('');
+        }
+    }, [addNewComment, setNewComment, card?.id, newComment]);
+
+    const handlerChangeDescription = useCallback((event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (event.ctrlKey && event.key === 'Enter') {
+            setToggleDescCard(false);
+        }
+    }, [setToggleDescCard]);
+
+
+    const handlerDeleteCard = useCallback(() => {
+        if(window.confirm('You are sure?')) {
+            deleteCard(card?.id);
+            history.push('/board');
+        }
+
+    }, [card?.id, deleteCard, history]);
+
+    useEffect(() => {
+        const handleEsc = (event: any) => {
+            if (event.key === 'Escape') {
+                history.push('/board');
+            }
+        };
+        window.addEventListener('keydown', handleEsc);
+        return () => {
+            window.removeEventListener('keydown', handleEsc);
+        };
+    }, [history]);
+
     return (
         <div className="card-modal">
 
@@ -56,7 +95,12 @@ export const CardModal: React.FC<CardModalProps> = ({cards, comments, lists, ren
                     <div className="card-modal__title">
                         <img src={cardIcon} alt="close" className="card-modal__img"/>
                         {toggleTitleCard ?
-                            <input onClick={(el) => el.stopPropagation()} type="text" defaultValue={card?.title}/> :
+                            <input
+                                onClick={(el) => el.stopPropagation()}
+                                type="text"
+                                value={card?.title}
+                                onChange={el => changeTitleCards(card?.id, el.currentTarget.value)}
+                            /> :
                             <h3 onClick={handlerToggleCards}>{card?.title}</h3>
                         }
 
@@ -70,8 +114,20 @@ export const CardModal: React.FC<CardModalProps> = ({cards, comments, lists, ren
                             <h6>Description</h6>
                         </div>
                         {toggleDescCard ?
-                            <textarea onClick={(el) => el.stopPropagation()} className="card-modal__description-field card-modal_ml-img" defaultValue={card?.description}/> :
-                            <p onClick={() => setToggleDescCard(true)} className="card-modal__description-field card-modal_ml-img">{card?.description}</p>}
+                            <textarea onClick={(el) => el.stopPropagation()}
+                                      className="card-modal__description-field card-modal_ml-img"
+                                      value={card?.description}
+                                      onKeyUp={handlerChangeDescription}
+                                      onChange={el => changeDescriptionCard(card?.id, el.currentTarget.value)}
+                                      placeholder="Add a more detailed description..."
+                            /> :
+                            card?.description ?
+                                <p onClick={() => setToggleDescCard(true)}
+                                   className="card-modal__description-field card-modal_ml-img">{card?.description}</p> :
+                                <div onClick={() => setToggleDescCard(true)}
+                                     className="card-modal__description-field card-modal_ml-img card-modal__description-empty">Add
+                                    a more detailed description...</div>
+                        }
 
                     </div>
                     <div className="card-modal__comment">
@@ -81,8 +137,17 @@ export const CardModal: React.FC<CardModalProps> = ({cards, comments, lists, ren
                         </div>
                         <div className="card-modal__form">
                             <form>
-                                <textarea placeholder='write comment'/>
-                                <button className="btn btn-primary card-modal__form-btn">Save</button>
+                                <textarea
+                                    value={newComment}
+                                    onKeyUp={handlerSendComment}
+                                    onChange={el => setNewComment(el.currentTarget.value)}
+                                    placeholder='write comment'/>
+                                <button onClick={el => {
+                                    el.preventDefault();
+                                    addNewComment(card?.id, newComment);
+                                    setNewComment('');
+                                }} className="btn btn-primary card-modal__form-btn">Save
+                                </button>
                             </form>
                         </div>
                         <div className="card-modal__comment-field">
@@ -94,7 +159,7 @@ export const CardModal: React.FC<CardModalProps> = ({cards, comments, lists, ren
                 </div>
                 <div className="card-modal__action">
                     <div className="card-modal__delete">
-                        <button className="btn btn-danger">Delete Card</button>
+                        <button onClick={handlerDeleteCard} className="btn btn-danger">Delete Card</button>
                     </div>
                 </div>
             </div>

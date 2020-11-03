@@ -1,12 +1,28 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import './CommentsModal.scss';
 import { IComments } from "../../interfaces/interfaces";
 
 interface CommentsModalProps {
-    comment: IComments
+    comment: IComments,
+    deleteComment(idComment: string): void,
+    changeCommentText(idComment: string, text: string): void
 }
 
-export const CommentsModal: React.FC<CommentsModalProps> = ({ comment }) => {
+export const CommentsModal: React.FC<CommentsModalProps> = ({ comment, deleteComment, changeCommentText }) => {
+
+    const [toggleChangeComment, setToggleChangeComment] = useState<boolean>(false);
+    const handleDeleteComment = useCallback((event: React.MouseEvent<HTMLAnchorElement>) => {
+        if(window.confirm('Are you sure?')) {
+            deleteComment(comment?.id);
+        }
+        event.preventDefault();
+    }, [deleteComment, comment?.id]);
+
+    const handlerSaveCommentChange = useCallback((event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (event.ctrlKey && event.key === 'Enter') {
+            setToggleChangeComment(false);
+        }
+    }, []);
 
     return (
         <div className="comments-modal comments-modal_mt">
@@ -16,10 +32,18 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ comment }) => {
                 </h5>
             </div>
             <div className="comments-modal__text">
-                <p>{comment.text}</p>
+                {toggleChangeComment ?
+                    <textarea
+                        value={comment?.text}
+                        onChange={ev => changeCommentText(comment.id, ev.currentTarget.value)}
+                        onKeyUp={handlerSaveCommentChange}
+                    /> :
+                    <p onClick={() => setToggleChangeComment(true)}>{comment.text}</p>
+                }
+
             </div>
             <div className="comments-modal__delete">
-                <a href='/'>Delete</a>
+                <a onClick={handleDeleteComment} href='/'>Delete</a>
             </div>
 
         </div>

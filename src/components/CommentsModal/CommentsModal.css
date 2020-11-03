@@ -3,6 +3,9 @@
 .comments-modal__author h5 {
   font-size: 15px;
   font-weight: bold; }
+.comments-modal__text textarea {
+  min-height: 40px;
+  width: 80%; }
 .comments-modal__text p {
   display: inline;
   padding: 5px 10px;
