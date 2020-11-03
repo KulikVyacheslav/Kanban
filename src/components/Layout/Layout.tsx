@@ -3,34 +3,15 @@ import {Navbar} from '../Navbar';
 import {Board} from '../Board';
 import {Greeting} from '../Greeting';
 import {CardModal} from '../CardModal';
+import {List} from '../List';
+import {Card} from '../Card';
 import {Switch, Route, withRouter} from 'react-router-dom';
 import {nanoid} from 'nanoid';
-
+import {ICards, IComments, ILists, IProfile, ToggleAddButton, ToggleTitleList} from '../../interfaces/interfaces';
 import './Layout.scss';
+import {IDBoardState} from "../../types/types";
+import {Comments} from "../Comments";
 
-export interface IProfile {
-    name: string,
-    id: string
-}
-
-export interface ILists {
-    title: string,
-    id: string
-}
-
-export interface ICards {
-    id: string,
-    idList: string,
-    title:  string,
-    description: string,
-}
-
-export interface IComments {
-    author: string,
-    id: string,
-    idCard: string,
-    text: string
-}
 
 export interface IState {
     profile: IProfile,
@@ -73,19 +54,19 @@ export class LayoutComponent extends React.Component<any, IState> {
                 {
                     id: 'asdas213sad',
                     idList: 'adc123s',
-                    title:  'Test card',
+                    title: 'Test card',
                     description: 'Test desc'
                 },
                 {
                     id: 'asdas213sadasd',
                     idList: 'adc123s',
-                    title:  'Test card 2',
+                    title: 'Test card 2',
                     description: 'Test desc'
                 },
                 {
                     id: 'asdas213sadaas',
                     idList: 'adc123s123',
-                    title:  'Test card 2',
+                    title: 'Test card 2',
                     description: 'Test desc'
                 }
             ],
@@ -110,6 +91,8 @@ export class LayoutComponent extends React.Component<any, IState> {
         this.changeTitleList = this.changeTitleList.bind(this);
         this.saveToLocalStorage = this.saveToLocalStorage.bind(this);
         this.saveToLocalStorageTruly = this.saveToLocalStorageTruly.bind(this);
+        this.renderList = this.renderList.bind(this);
+        this.renderCard = this.renderCard.bind(this);
 
     }
 
@@ -164,7 +147,7 @@ export class LayoutComponent extends React.Component<any, IState> {
         });
     }
 
-    saveToLocalStorage(params: ParamsState ): void {
+    saveToLocalStorage(params: ParamsState): void {
         const localVar = JSON.parse(localStorage.getItem(params) as string);
         if (!localVar) {
             localStorage.setItem(params, JSON.stringify(this.state[params]));
@@ -183,9 +166,46 @@ export class LayoutComponent extends React.Component<any, IState> {
         localStorage.setItem(params, JSON.stringify(this.state[params]));
     }
 
+    renderList(toggleAddCardForm: ToggleAddButton,
+               toggleTitleList: ToggleTitleList,
+               toggleHandlerTitleList: (id: IDBoardState) => void,
+               toggleHandlerAddButton: (id: IDBoardState) => void,
+               id: string,
+               list: ILists,
+               cardsCurrentList: Array<ICards>): any {
+        return <List
+            changeTitleList={this.changeTitleList}
+            addNewCard={this.addNewCard}
+            toggleAddCardForm={toggleAddCardForm}
+            toggleTitleList={toggleTitleList}
+            onChTitleClick={toggleHandlerTitleList}
+            onAddBtnClick={toggleHandlerAddButton}
+            key={id}
+            list={list}
+            cards={cardsCurrentList}
+            comments={this.state.comments}
+            render={this.renderCard}
+        />;
+    }
+
+    renderCard(commentsCurrentCard: Array<IComments>, cardId: string, card: ICards): any {
+
+        return <Card
+            comments={commentsCurrentCard}
+            key={cardId}
+            card={card}
+            render={this.renderComment}
+        />;
+
+    }
+
+    renderComment(commentsLength: number) {
+        return <Comments commentsCount={commentsLength}/>;
+    }
+
 
     render() {
-        const {profile, lists,  cards, comments} = this.state;
+        const {profile, lists, cards, comments} = this.state;
         const {location} = this.props;
         const isModal = location.state?.modal;
         return (
@@ -196,15 +216,14 @@ export class LayoutComponent extends React.Component<any, IState> {
                     <Switch location={isModal || location}>
                         <Route exact path="/board">
                             <Board
-                                addNewCard={this.addNewCard}
-                                changeTitleList={this.changeTitleList}
+                                render={this.renderList}
                                 lists={lists}
                                 cards={cards}
-                                comments={comments}
                             />
                         </Route>
                     </Switch>
-                    {isModal && <Route path="/cards/:id" children={<CardModal lists={lists} comments={comments} cards={cards}/>} />}
+                    {isModal &&
+                    <Route path="/cards/:id" children={<CardModal lists={lists} comments={comments} cards={cards}/>}/>}
                 </div>
             </>
         );

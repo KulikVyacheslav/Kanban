@@ -5,8 +5,8 @@ import close from './close.svg';
 import cardIcon from './card.svg';
 import description from './description.svg';
 import commentsIcon from './comments.svg';
-import { ICards, IComments, ILists  } from "../Layout/Layout";
 import { CommentsModal } from 'components/CommentsModal';
+import {ICards, IComments, ILists} from "../../interfaces/interfaces";
 
 interface CardModalProps {
     cards: Array<ICards>,

@@ -1,9 +1,7 @@
 import React, {useState, useCallback} from 'react';
 import {nanoid} from 'nanoid';
 import './List.scss';
-import {Card} from '../Card';
-import {ToggleAddButton, ToggleTitleList} from "../../interfaces/interfaces";
-import { ILists, ICards, IComments} from '../Layout/Layout';
+import {RenderCards, ToggleAddButton, ToggleTitleList, ILists, ICards, IComments } from "../../interfaces/interfaces";
 
 interface ListProps {
     list: ILists,
@@ -14,7 +12,8 @@ interface ListProps {
     toggleAddCardForm: ToggleAddButton,
     toggleTitleList: ToggleTitleList,
     addNewCard(idList: string, idCard: string, titleCard: string): void,
-    changeTitleList(idList: string, titleList: string): void
+    changeTitleList(idList: string, titleList: string): void,
+    render: RenderCards
 }
 
 export const List: React.FC<ListProps> = ({
@@ -26,7 +25,8 @@ export const List: React.FC<ListProps> = ({
                                               toggleAddCardForm,
                                               addNewCard,
                                               toggleTitleList,
-                                              changeTitleList
+                                              changeTitleList,
+                                              render
                                           }) => {
 
     const [titleCards, setTitleCards] = useState<string>('');
@@ -99,8 +99,9 @@ export const List: React.FC<ListProps> = ({
                 <div className="list__cards">
                     {(cards.length > 0 &&
                         cards.map((card: any) => {
-                        const commentsCurrentCard: any = comments.filter( comments => comments.idCard === card.id);
-                        return <Card comments={commentsCurrentCard} key={card.id} card={card}/>;
+                        const commentsCurrentCard: Array<IComments> = comments.filter( comments => comments.idCard === card.id);
+                        // return <Card comments={commentsCurrentCard} key={card.id} card={card}/>;
+                            return render(commentsCurrentCard, card.id, card);
                     }))
                     }
                 </div>
