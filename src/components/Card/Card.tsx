@@ -6,7 +6,8 @@ import {RenderComments, ICards, IComments } from "../../interfaces/interfaces";
 interface CardProps {
     card: ICards,
     comments: Array<IComments>,
-    render: RenderComments
+    render: RenderComments,
+    key: string
 
 }
 

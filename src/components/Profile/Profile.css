@@ -1,0 +1,21 @@
+.profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: calc(100vh - 56px - 10px - 10px); }
+  .profile__name {
+    display: flex;
+    align-items: center; }
+    .profile__name h1 {
+      margin-right: 5px; }
+    .profile__name-view {
+      height: 40px;
+      border: 0;
+      overflow: hidden;
+      resize: none;
+      font-size: 30px;
+      line-height: 30px;
+      padding: 3px 0; }
+
+/*# sourceMappingURL=Profile.css.map */
