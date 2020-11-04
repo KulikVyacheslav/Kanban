@@ -6,6 +6,7 @@ $hNavBar: '56px';
   height: calc(100vh - #{$hNavBar} - #{$mtContent} - #{$mbContent}); //100vh - h NavBar - margin t/b content
   padding: 10px;
   background-color: #a9a9e7;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow-y: hidden;
+  overflow-x: auto;
+  display: flex;
 }
