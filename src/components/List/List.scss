@@ -27,6 +27,16 @@
       color: gray;
       font-weight: bold;
     }
+
+    &-field {
+      border: 0;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    &-field:focus {
+      background-color: white;
+    }
   }
 
   &__cards {
@@ -40,19 +50,12 @@
 
   &__from {
 
-    form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
     textarea {
       width: 100%;
+      height: 80px;
       margin-bottom: 10px;
     }
-    button {
-      align-self: flex-start;
-    }
+
 
   }
 

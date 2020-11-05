@@ -5,10 +5,6 @@ export interface ToggleAddButton {
     id: IDBoardState;
 }
 
-export interface ToggleTitleList {
-    state: boolean,
-    id: IDBoardState
-}
 
 export interface IProfile {
     name: string,
@@ -36,11 +32,7 @@ export interface IComments {
 
 
 export interface RenderLists {
-    (toggleAddCardForm: ToggleAddButton,
-     toggleTitleList: ToggleTitleList,
-     toggleHandlerTitleList: (id: IDBoardState) => void,
-     toggleHandlerAddButton: (id: IDBoardState) => void,
-     id: string,
+    (id: string,
      list: ILists,
      cardsCurrentList: Array<ICards>): void
 

@@ -8,6 +8,8 @@
     text-decoration: none; }
   .cards_color-gray, .cards_color-gray:hover {
     color: gray; }
+  .cards__title p {
+    word-wrap: break-word; }
 
 .cards:hover {
   cursor: pointer;

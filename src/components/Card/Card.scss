@@ -12,7 +12,9 @@
   }
 
   &__title {
-
+    p {
+      word-wrap: break-word;
+    }
   }
   &__components {
 

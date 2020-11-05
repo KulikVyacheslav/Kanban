@@ -45,6 +45,7 @@ $marginLeftFromIcon: 5px;
 
     h3 {
       margin-left: $marginLeftFromIcon;
+      word-break: break-all;
     }
 
     input {
