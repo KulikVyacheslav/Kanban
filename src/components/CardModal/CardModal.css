@@ -29,7 +29,8 @@
   .card-modal__title {
     display: flex; }
     .card-modal__title h3 {
-      margin-left: 5px; }
+      margin-left: 5px;
+      word-break: break-all; }
     .card-modal__title input {
       width: 80%;
       margin-left: 5px;

@@ -309,8 +309,7 @@ export class LayoutComponent extends React.Component<any, IState> {
         localStorage.setItem(params, JSON.stringify(this.state[params]));
     }
 
-    renderList(
-               id: string,
+    renderList(id: string,
                list: ILists,
                cardsCurrentList: Array<ICards>): any {
         return <List
@@ -377,12 +376,17 @@ export class LayoutComponent extends React.Component<any, IState> {
                         </Route>
                     </Switch>
                     {isModal &&
-                    <Route path="/cards/:id" children={<CardModal changeTitleCards={this.changeTitleCards}
-                                                                  changeDescriptionCard={this.changeDescriptionCard}
-                                                                  deleteCard={this.deleteCard}
-                                                                  addNewComment={this.addNewComment} lists={lists}
-                                                                  comments={comments} cards={cards}
-                                                                  render={this.renderCommentsModal}/>}/>}
+                    <Route path="/cards/:id" children={
+                        <CardModal changeTitleCards={this.changeTitleCards}
+                                   changeDescriptionCard={this.changeDescriptionCard}
+                                   deleteCard={this.deleteCard}
+                                   addNewComment={this.addNewComment}
+                                   lists={lists}
+                                   comments={comments}
+                                   cards={cards}
+                                   render={this.renderCommentsModal}
+                        />}
+                    />}
                 </div>
             </>
         );
