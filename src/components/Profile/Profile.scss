@@ -1,0 +1,36 @@
+$mtContent: '10px';
+$mbContent: '10px';
+$hNavBar: '56px';
+
+.profile {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: calc(100vh - #{$hNavBar} - #{$mtContent} - #{$mbContent}); //100vh - h NavBar - margin t/b content
+
+  &__name {
+    display: flex;
+    align-items: center;
+
+    h1 {
+      margin-right: 5px;
+    }
+
+    &-view {
+      height: 40px;
+      border: 0;
+      overflow: hidden;
+      resize: none;
+      font-size: 30px;
+      line-height:30px;
+      padding: 3px 0;
+
+      &_active {
+
+      }
+    }
+  }
+
+}

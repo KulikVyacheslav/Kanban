@@ -1,8 +1,9 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, NavLink } from 'react-router-dom';
 import logo from './logo.svg';
 
 export const Navbar: React.FC = () => {
+
     return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <Link className="navbar-brand" to="/">
@@ -10,14 +11,14 @@ export const Navbar: React.FC = () => {
             Kanban
         </Link>
         <ul className="navbar-nav">
-            <li className="nav-item mr-2">
-                <Link to="/">Home</Link>
+            <li className="nav-item">
+                <NavLink activeClassName="active" className="nav-link" to="/home">Home</NavLink>
             </li>
-            <li className="nav-item mr-2">
-                <Link to="/board">Board</Link>
+            <li className="nav-item">
+                <NavLink activeClassName="active" className="nav-link" to="/board">Board</NavLink>
             </li>
-            <li className="nav-item mr-2">
-                <Link to="/profile">Profile</Link>
+            <li className="nav-item">
+                <NavLink activeClassName="active" className="nav-link" to="/profile">Profile</NavLink>
             </li>
         </ul>
     </nav>

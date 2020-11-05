@@ -5,13 +5,14 @@ import {Greeting} from '../Greeting';
 import {CardModal} from '../CardModal';
 import {List} from '../List';
 import {Card} from '../Card';
-import {Switch, Route, withRouter} from 'react-router-dom';
+import {Switch, Route, withRouter, Redirect} from 'react-router-dom';
 import {nanoid} from 'nanoid';
 import {ICards, IComments, ILists, IProfile, ToggleAddButton, ToggleTitleList} from '../../interfaces/interfaces';
 import './Layout.scss';
 import {IDBoardState, ParamsState} from "../../types/types";
 import {Comments} from "../Comments";
 import {CommentsModal} from "../CommentsModal";
+import {Profile} from "../Profile";
 
 
 export interface IState {
@@ -220,6 +221,7 @@ export class LayoutComponent extends React.Component<any, IState> {
         });
     }
 
+
     changeDescriptionCard(idCard: string, description: string):  void {
         const newCards = this.state.cards.map( card => {
             if (card.id === idCard) {
@@ -319,6 +321,12 @@ export class LayoutComponent extends React.Component<any, IState> {
                                 lists={lists}
                                 cards={cards}
                             />
+                        </Route>
+                        <Route path="/profile">
+                            <Profile changeProfileName={this.handlerName} profile={profile}/>
+                        </Route>
+                        <Route path="*">
+                            <Redirect to="/board" />
                         </Route>
                     </Switch>
                     {isModal &&
