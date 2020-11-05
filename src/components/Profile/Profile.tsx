@@ -12,6 +12,7 @@ export const Profile: React.FC<ProfileProps> = ({profile, changeProfileName}) =>
     const handlerChangeName = (ev: React.FormEvent<HTMLTextAreaElement>) => {
         if (ev.currentTarget.value === '') {
             changeProfileName('empty');
+            //TODO
         } else {
             changeProfileName(ev.currentTarget.value);
         }

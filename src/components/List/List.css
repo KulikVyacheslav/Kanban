@@ -17,17 +17,18 @@
   .list__title p {
     color: gray;
     font-weight: bold; }
+  .list__title-field {
+    border: 0;
+    width: 100%;
+    margin-bottom: 10px; }
+  .list__title-field:focus {
+    background-color: white; }
   .list__cards {
     overflow-y: auto;
     margin-bottom: 10px; }
-  .list__from form {
-    display: flex;
-    flex-direction: column;
-    align-items: center; }
   .list__from textarea {
     width: 100%;
+    height: 80px;
     margin-bottom: 10px; }
-  .list__from button {
-    align-self: flex-start; }
 
 /*# sourceMappingURL=List.css.map */

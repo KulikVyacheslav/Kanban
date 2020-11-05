@@ -7,7 +7,7 @@ import {List} from '../List';
 import {Card} from '../Card';
 import {Switch, Route, withRouter, Redirect} from 'react-router-dom';
 import {nanoid} from 'nanoid';
-import {ICards, IComments, ILists, IProfile, ToggleAddButton, ToggleTitleList} from '../../interfaces/interfaces';
+import {ICards, IComments, ILists, IProfile, ToggleAddButton} from '../../interfaces/interfaces';
 import './Layout.scss';
 import {IDBoardState, ParamsState} from "../../types/types";
 import {Comments} from "../Comments";
@@ -19,7 +19,8 @@ export interface IState {
     profile: IProfile,
     lists: Array<ILists>,
     cards: Array<ICards>,
-    comments: Array<IComments>
+    comments: Array<IComments>,
+    toggleAddCardButton: ToggleAddButton
 }
 
 
@@ -83,10 +84,16 @@ export class LayoutComponent extends React.Component<any, IState> {
                     idCard: 'asdas213sad',
                     text: 'Test comments 2'
                 }
-            ]
+            ],
+            toggleAddCardButton: {
+                id: null,
+                state: false
+            },
         };
 
         this.handlerName = this.handlerName.bind(this);
+        this.handlerResetState = this.handlerResetState.bind(this);
+        this.toggleHandlerAddButton = this.toggleHandlerAddButton.bind(this);
         this.addNewCard = this.addNewCard.bind(this);
         this.deleteCard = this.deleteCard.bind(this);
         this.addNewComment = this.addNewComment.bind(this);
@@ -126,6 +133,50 @@ export class LayoutComponent extends React.Component<any, IState> {
         }));
     }
 
+    handlerResetState(event: React.MouseEvent<HTMLDivElement>): void {
+        const {toggleAddCardButton} = this.state;
+        if (toggleAddCardButton.state) {
+            this.setState({
+                toggleAddCardButton: {
+                    state: false,
+                    id: null
+                }
+            });
+        }
+    }
+
+
+    toggleHandlerAddButton(id: IDBoardState): void {
+        const {toggleAddCardButton} = this.state;
+        if (id !== toggleAddCardButton.id && toggleAddCardButton.id !== null) {
+            this.setState(state => {
+                return {
+                    toggleAddCardButton: {
+                        ...state.toggleAddCardButton,
+                        id
+                    }
+                };
+            });
+        } else {
+            this.setState(state => {
+                return {
+                    toggleAddCardButton: {
+                        state: !state.toggleAddCardButton.state,
+                        id
+                    }
+                };
+            });
+        }
+        if (id === null) {
+            this.setState({
+                toggleAddCardButton: {
+                    state: false,
+                    id: null
+                }
+            });
+        }
+    }
+
     addNewCard(idList: string, idCard: string, titleCard: string): void {
         this.setState((state) => {
             return {
@@ -142,9 +193,9 @@ export class LayoutComponent extends React.Component<any, IState> {
     deleteCard(idCard: string): void {
 
         this.setState(state => {
-           return {
-               cards: state.cards.filter(card => card.id !== idCard)
-           };
+            return {
+                cards: state.cards.filter(card => card.id !== idCard)
+            };
         });
     }
 
@@ -175,15 +226,15 @@ export class LayoutComponent extends React.Component<any, IState> {
     changeCommentText(idComment: string, text: string): void {
         this.setState(state => {
             return {
-             comments: state.comments.map( comment => {
-                 if (comment.id === idComment){
-                     return {
-                         ...comment,
-                         text
-                     };
-                 }
-                 return comment;
-             })
+                comments: state.comments.map(comment => {
+                    if (comment.id === idComment) {
+                        return {
+                            ...comment,
+                            text
+                        };
+                    }
+                    return comment;
+                })
             };
         });
     }
@@ -204,14 +255,14 @@ export class LayoutComponent extends React.Component<any, IState> {
     }
 
     changeTitleCards(idCard: string, title: string): void {
-        const newCards = this.state.cards.map( card => {
-           if (card.id === idCard) {
-               return {
-                   ...card,
-                   title
-               };
+        const newCards = this.state.cards.map(card => {
+            if (card.id === idCard) {
+                return {
+                    ...card,
+                    title
+                };
 
-           }
+            }
             return card;
         });
 
@@ -222,8 +273,8 @@ export class LayoutComponent extends React.Component<any, IState> {
     }
 
 
-    changeDescriptionCard(idCard: string, description: string):  void {
-        const newCards = this.state.cards.map( card => {
+    changeDescriptionCard(idCard: string, description: string): void {
+        const newCards = this.state.cards.map(card => {
             if (card.id === idCard) {
                 return {
                     ...card,
@@ -258,20 +309,15 @@ export class LayoutComponent extends React.Component<any, IState> {
         localStorage.setItem(params, JSON.stringify(this.state[params]));
     }
 
-    renderList(toggleAddCardForm: ToggleAddButton,
-               toggleTitleList: ToggleTitleList,
-               toggleHandlerTitleList: (id: IDBoardState) => void,
-               toggleHandlerAddButton: (id: IDBoardState) => void,
+    renderList(
                id: string,
                list: ILists,
                cardsCurrentList: Array<ICards>): any {
         return <List
             changeTitleList={this.changeTitleList}
             addNewCard={this.addNewCard}
-            toggleAddCardForm={toggleAddCardForm}
-            toggleTitleList={toggleTitleList}
-            onChTitleClick={toggleHandlerTitleList}
-            onAddBtnClick={toggleHandlerAddButton}
+            toggleAddCardForm={this.state.toggleAddCardButton}
+            onAddBtnClick={this.toggleHandlerAddButton}
             key={id}
             list={list}
             cards={cardsCurrentList}
@@ -318,6 +364,7 @@ export class LayoutComponent extends React.Component<any, IState> {
                         <Route exact path="/board">
                             <Board
                                 render={this.renderList}
+                                handlerResetState={this.handlerResetState}
                                 lists={lists}
                                 cards={cards}
                             />
@@ -326,11 +373,16 @@ export class LayoutComponent extends React.Component<any, IState> {
                             <Profile changeProfileName={this.handlerName} profile={profile}/>
                         </Route>
                         <Route path="*">
-                            <Redirect to="/board" />
+                            <Redirect to="/board"/>
                         </Route>
                     </Switch>
                     {isModal &&
-                    <Route path="/cards/:id" children={<CardModal changeTitleCards={this.changeTitleCards} changeDescriptionCard={this.changeDescriptionCard} deleteCard={this.deleteCard} addNewComment={this.addNewComment} lists={lists} comments={comments} cards={cards} render={this.renderCommentsModal}/>}/>}
+                    <Route path="/cards/:id" children={<CardModal changeTitleCards={this.changeTitleCards}
+                                                                  changeDescriptionCard={this.changeDescriptionCard}
+                                                                  deleteCard={this.deleteCard}
+                                                                  addNewComment={this.addNewComment} lists={lists}
+                                                                  comments={comments} cards={cards}
+                                                                  render={this.renderCommentsModal}/>}/>}
                 </div>
             </>
         );
