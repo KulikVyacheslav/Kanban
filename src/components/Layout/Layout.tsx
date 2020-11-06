@@ -356,25 +356,31 @@ export class LayoutComponent extends React.Component<any, IState> {
         const isModal = location.state?.modal;
         return (
             <>
-                <Navbar/>
-                <div className="content">
+                {/*<Navbar/>*/}
+                {/*<div className="content">*/}
                     {(profile.name === '' && <Greeting handlerName={this.handlerName}/>)}
-                    <Switch location={isModal || location}>
-                        <Route exact path="/board">
-                            <Board
-                                render={this.renderList}
-                                handlerResetState={this.handlerResetState}
-                                lists={lists}
-                                cards={cards}
-                            />
-                        </Route>
-                        <Route path="/profile">
-                            <Profile changeProfileName={this.handlerName} profile={profile}/>
-                        </Route>
-                        <Route path="*">
-                            <Redirect to="/board"/>
-                        </Route>
-                    </Switch>
+                <Board
+                    render={this.renderList}
+                    handlerResetState={this.handlerResetState}
+                    lists={lists}
+                    cards={cards}
+                />
+                    {/*<Switch location={isModal || location}>*/}
+                    {/*    <Route exact path="/board">*/}
+                    {/*        <Board*/}
+                    {/*            render={this.renderList}*/}
+                    {/*            handlerResetState={this.handlerResetState}*/}
+                    {/*            lists={lists}*/}
+                    {/*            cards={cards}*/}
+                    {/*        />*/}
+                    {/*    </Route>*/}
+                    {/*    <Route path="/profile">*/}
+                    {/*        <Profile changeProfileName={this.handlerName} profile={profile}/>*/}
+                    {/*    </Route>*/}
+                    {/*    <Route path="*">*/}
+                    {/*        <Redirect to="/board"/>*/}
+                    {/*    </Route>*/}
+                    {/*</Switch>*/}
                     {isModal &&
                     <Route path="/cards/:id" children={
                         <CardModal changeTitleCards={this.changeTitleCards}
@@ -387,7 +393,7 @@ export class LayoutComponent extends React.Component<any, IState> {
                                    render={this.renderCommentsModal}
                         />}
                     />}
-                </div>
+                {/*</div>*/}
             </>
         );
     }
