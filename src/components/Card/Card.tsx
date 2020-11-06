@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {ReactNode, useCallback} from "react";
 import './Card.scss';
 import { useLocation, useHistory } from "react-router-dom";
 import {RenderComments, ICards, IComments } from "../../interfaces/interfaces";
@@ -6,8 +6,7 @@ import {RenderComments, ICards, IComments } from "../../interfaces/interfaces";
 interface CardProps {
     card: ICards,
     comments: Array<IComments>,
-    render: RenderComments,
-    key: string
+    render: () => ReactNode
 
 }
 
@@ -27,9 +26,8 @@ export const Card: React.FC<CardProps> = ({card, comments, render}) => {
                     <p>{card.title}</p>
                 </div>
                 <div className="cards__components">
-                    {comments.length > 0 && render(comments.length)}
+                    {comments.length > 0 && render()}
                     {/*// <Comments commentsCount={comments.length}/>*/}
-
                 </div>
             </div>
 

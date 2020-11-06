@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, ReactNode} from 'react';
 import {nanoid} from 'nanoid';
 import './List.scss';
 import {RenderCards, ToggleAddButton, ILists, ICards, IComments} from "../../interfaces/interfaces";
@@ -11,7 +11,7 @@ interface ListProps {
     toggleAddCardForm: ToggleAddButton,
     addNewCard(idList: string, idCard: string, titleCard: string): void,
     changeTitleList(idList: string, titleList: string): void,
-    render: RenderCards
+    render: () => ReactNode
 }
 
 export const List: React.FC<ListProps> = ({
@@ -27,21 +27,21 @@ export const List: React.FC<ListProps> = ({
 
     const [titleCards, setTitleCards] = useState<string>('');
 
-
+    console.log(titleCards)
     const handlerBtnAdd = useCallback((event: React.MouseEvent<HTMLButtonElement>): void => {
         event.stopPropagation();
-        onAddBtnClick(event.currentTarget.id);
-    }, [onAddBtnClick]);
+        onAddBtnClick(list.id);
+    }, [onAddBtnClick, list.id]);
 
     const handlerTitleList = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
         changeTitleList(list.id, event.currentTarget.value);
-
     }, [list.id, changeTitleList]);
 
 
     const handlerBtnAddToList = useCallback((event: React.MouseEvent<HTMLButtonElement>): void => {
         event.preventDefault();
         addNewCard(list.id, nanoid(), titleCards);
+        setTitleCards('');
     }, [addNewCard, list.id, titleCards]);
 
     const handlerInputTitleCards = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -54,6 +54,7 @@ export const List: React.FC<ListProps> = ({
             event.preventDefault();
             addNewCard(list.id, nanoid(), event.currentTarget.value);
             event.currentTarget.value = '';
+            setTitleCards('');
         }
     }, [addNewCard, list.id]);
 
@@ -77,12 +78,7 @@ export const List: React.FC<ListProps> = ({
                 </div>
 
                 <div className="list__cards">
-                    {(cards.length > 0 &&
-                        cards.map((card: any) => {
-                            const commentsCurrentCard: Array<IComments> = comments.filter(comments => comments.idCard === card.id);
-                            return render(commentsCurrentCard, card.id, card);
-                        }))
-                    }
+                    {(cards.length > 0 && render())}
                 </div>
                 {toggleAddCardForm.state && list.id === toggleAddCardForm.id ? (
                     <div className="list__from">
@@ -91,6 +87,7 @@ export const List: React.FC<ListProps> = ({
                                 placeholder="Enter a title for this card..."
                                 onKeyDown={handlerEnterKey}
                                 onChange={handlerInputTitleCards}
+                                value={titleCards}
                         />
                         <button onClick={handlerBtnAddToList} className="btn btn-primary">Add card
                         </button>
