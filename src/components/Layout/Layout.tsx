@@ -16,7 +16,7 @@ import {Profile} from "../Profile";
 
 
 export interface IState {
-    profile: IProfile,
+    // profile: IProfile,
     lists: Array<ILists>,
     cards: Array<ICards>,
     comments: Array<IComments>,
@@ -29,10 +29,10 @@ export class LayoutComponent extends React.Component<any, IState> {
         super(props);
 
         this.state = {
-            profile: {
+           /* profile: {
                 name: '',
                 id: nanoid()
-            },
+            },*/
             lists: [
                 {
                     title: 'TODO',
@@ -91,7 +91,7 @@ export class LayoutComponent extends React.Component<any, IState> {
             },
         };
 
-        this.handlerName = this.handlerName.bind(this);
+        // this.handlerName = this.handlerName.bind(this);
         this.handlerResetState = this.handlerResetState.bind(this);
         this.toggleHandlerAddButton = this.toggleHandlerAddButton.bind(this);
         this.addNewCard = this.addNewCard.bind(this);
@@ -111,27 +111,25 @@ export class LayoutComponent extends React.Component<any, IState> {
     }
 
     componentDidMount(): void {
-        this.saveToLocalStorage('profile');
         this.saveToLocalStorage('lists');
         this.saveToLocalStorage('cards');
         this.saveToLocalStorage('comments');
     }
 
     componentDidUpdate(): void {
-        this.saveToLocalStorageTruly('profile');
         this.saveToLocalStorageTruly('lists');
         this.saveToLocalStorageTruly('cards');
         this.saveToLocalStorageTruly('comments');
     }
 
-    handlerName(name: string): void {
-        this.setState((state) => ({
-            profile: {
-                ...state.profile,
-                name: name,
-            }
-        }));
-    }
+    // handlerName(name: string): void {
+    //     this.setState((state) => ({
+    //         profile: {
+    //             ...state.profile,
+    //             name: name,
+    //         }
+    //     }));
+    // }
 
     handlerResetState(event: React.MouseEvent<HTMLDivElement>): void {
         const {toggleAddCardButton} = this.state;
@@ -200,10 +198,10 @@ export class LayoutComponent extends React.Component<any, IState> {
     }
 
     addNewComment(idCard: string, text: string): void {
-
+        console.log(this.props)
         const newComment = {
             id: nanoid(),
-            author: this.state.profile.name,
+            author: this.props.profileName,
             idCard,
             text
         };
@@ -351,14 +349,14 @@ export class LayoutComponent extends React.Component<any, IState> {
 
 
     render() {
-        const {profile, lists, cards, comments} = this.state;
+        const {lists, cards, comments} = this.state;
         const {location} = this.props;
         const isModal = location.state?.modal;
         return (
             <>
                 {/*<Navbar/>*/}
                 {/*<div className="content">*/}
-                    {(profile.name === '' && <Greeting handlerName={this.handlerName}/>)}
+                {/*    {(profile.name === '' && <Greeting handlerName={this.handlerName}/>)}*/}
                 <Board
                     render={this.renderList}
                     handlerResetState={this.handlerResetState}
@@ -399,5 +397,5 @@ export class LayoutComponent extends React.Component<any, IState> {
     }
 }
 
-export const Layout = withRouter(LayoutComponent);
+export const Layout = withRouter<any, any>(LayoutComponent);
 
