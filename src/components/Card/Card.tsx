@@ -1,35 +1,33 @@
-import React, {useCallback} from "react";
+import React, {ReactNode} from "react";
 import './Card.scss';
-import { useLocation, useHistory } from "react-router-dom";
-import {RenderComments, ICards, IComments } from "../../interfaces/interfaces";
+import { ICards, IComments } from "../../interfaces/interfaces";
+import { useModal } from "react-modal-hook";
 
 interface CardProps {
     card: ICards,
     comments: Array<IComments>,
-    render: RenderComments,
-    key: string
+    render: () => ReactNode
+    renderCardModal: any
 
 }
 
-export const Card: React.FC<CardProps> = ({card, comments, render}) => {
-    let location = useLocation();
-    let {push} = useHistory();
 
-    const handleClickCard = useCallback(() => {
-        push(`/cards/${card.id}`,{ modal: location });
-    }, [push, location, card.id]);
+export const Card: React.FC<CardProps> = ({card, comments, render, renderCardModal}) => {
 
-    
+
+    const [showModal, hideModal] = useModal(() => (
+        renderCardModal(hideModal)
+    ), [renderCardModal]);
+
+
     return (
 
-            <div onClick={handleClickCard} className="cards">
+             <div onClick={showModal} className="cards">
                 <div className="cards__title">
                     <p>{card.title}</p>
                 </div>
                 <div className="cards__components">
-                    {comments.length > 0 && render(comments.length)}
-                    {/*// <Comments commentsCount={comments.length}/>*/}
-
+                    {comments.length > 0 && render()}
                 </div>
             </div>
 

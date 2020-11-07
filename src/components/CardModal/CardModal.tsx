@@ -1,34 +1,27 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {useHistory, useParams} from 'react-router-dom';
+import React, {ReactNode, useCallback, useEffect, useState} from 'react';
 import './CardModal.scss';
 import close from './close.svg';
 import cardIcon from './card.svg';
 import description from './description.svg';
 import commentsIcon from './comments.svg';
-import {ICards, IComments, ILists, RenderCommentsModal} from "../../interfaces/interfaces";
+import {ICards, IComments, ILists} from "../../interfaces/interfaces";
+import ReactModal from "react-modal";
 
 interface CardModalProps {
     changeTitleCards(idCard: string | undefined, title: string): void,
     changeDescriptionCard(idCard: string | undefined, description: string): void,
     addNewComment(idCard: string | undefined, text: string): void,
     deleteCard(idCard: string | undefined): void,
-    cards: Array<ICards>,
-    comments: Array<IComments>,
-    lists: Array<ILists>,
-    render: RenderCommentsModal,
+    card: ICards,
+    commentsCard: Array<IComments>,
+    listCards: ILists,
+    render: () => ReactNode,
+    hideModal: any
 }
 
-interface ParamTypes {
-    id: string
-}
+ReactModal.setAppElement('#root');
 
-export const CardModal: React.FC<CardModalProps> = ({changeTitleCards, changeDescriptionCard, addNewComment, deleteCard, cards, comments, lists, render}) => {
-
-    const history = useHistory();
-    const params = useParams<ParamTypes>();
-    const card: ICards | undefined = cards.find(card => card.id === params.id);
-    const commentsCard = comments.filter(comment => comment.idCard === params.id);
-    const listCards = lists.find(list => list.id === card?.idList);
+export const CardModal: React.FC<CardModalProps> = ({changeTitleCards, changeDescriptionCard, addNewComment, deleteCard, card, commentsCard, listCards, render, hideModal}) => {
 
     const [toggleTitleCard, setToggleTitleCard] = useState<boolean>(false);
     const [toggleDescCard, setToggleDescCard] = useState<boolean>(false);
@@ -36,8 +29,9 @@ export const CardModal: React.FC<CardModalProps> = ({changeTitleCards, changeDes
 
 
     const handlerCloseModal = useCallback(() => {
-        history.goBack();
-    }, [history]);
+        // history.push('/board');
+        hideModal();
+    }, [hideModal]);
 
     const handlerToggleCards = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
         event.stopPropagation();
@@ -67,25 +61,31 @@ export const CardModal: React.FC<CardModalProps> = ({changeTitleCards, changeDes
     const handlerDeleteCard = useCallback(() => {
         if(window.confirm('You are sure?')) {
             deleteCard(card?.id);
-            history.push('/board');
+            //history.push('/board');
+            hideModal();
         }
 
-    }, [card?.id, deleteCard, history]);
+    }, [card?.id, deleteCard, hideModal]);
 
     useEffect(() => {
         const handleEsc = (event: any) => {
             if (event.key === 'Escape') {
-                history.push('/board');
+                //history.push('/board');
+                hideModal();
             }
         };
         window.addEventListener('keydown', handleEsc);
         return () => {
             window.removeEventListener('keydown', handleEsc);
         };
-    }, [history]);
+    }, [hideModal]);
 
+
+    // @ts-ignore
+    // @ts-ignore
+    // @ts-ignore
     return (
-        <div className="card-modal">
+        <ReactModal isOpen className="card-modal">
 
             <div onClick={handlerToggleCardsReset} className="card-modal__content">
                 <div onClick={handlerCloseModal} className="card-modal__close">
@@ -151,9 +151,7 @@ export const CardModal: React.FC<CardModalProps> = ({changeTitleCards, changeDes
                             </form>
                         </div>
                         <div className="card-modal__comment-field">
-                            {commentsCard.length > 0 &&
-                            commentsCard.map((comment) => render(comment.id, comment))
-                            }
+                            {commentsCard.length > 0 && render()}
                         </div>
                     </div>
                 </div>
@@ -163,6 +161,6 @@ export const CardModal: React.FC<CardModalProps> = ({changeTitleCards, changeDes
                     </div>
                 </div>
             </div>
-        </div>
+        </ReactModal>
     );
 };
