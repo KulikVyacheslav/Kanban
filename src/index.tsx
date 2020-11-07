@@ -4,15 +4,18 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './index.scss';
 import {App} from './App';
 import {BrowserRouter as Router} from "react-router-dom";
+import {ModalProvider} from "react-modal-hook";
 
 
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
     <Router>
-        <React.StrictMode>
-            <App/>
-        </React.StrictMode>
+        <ModalProvider>
+            <React.StrictMode>
+                <App/>
+            </React.StrictMode>
+        </ModalProvider>
     </Router>
     , document.getElementById('root')
 );

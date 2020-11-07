@@ -1,7 +1,6 @@
 import React, {} from 'react';
 import './Board.scss';
 import {ILists, ICards, IComments, ToggleAddButton} from "../../interfaces/interfaces";
-import {Route, withRouter} from "react-router-dom";
 import {nanoid} from "nanoid";
 import {IDBoardState, ParamsState} from "../../types/types";
 import {List} from "../List";
@@ -17,7 +16,7 @@ export interface IState {
     toggleAddCardButton: ToggleAddButton
 }
 
-class BoardComponent extends React.Component<any, IState> {
+export class Board extends React.Component<any, IState> {
     constructor(props: any) {
         super(props);
 
@@ -285,37 +284,6 @@ class BoardComponent extends React.Component<any, IState> {
         localStorage.setItem(params, JSON.stringify(this.state[params]));
     }
 
-    // renderList(id: string,
-    //            list: ILists,
-    //            cardsCurrentList: Array<ICards>): any {
-    //     return <List
-    //         changeTitleList={this.changeTitleList}
-    //         addNewCard={this.addNewCard}
-    //         toggleAddCardForm={this.state.toggleAddCardButton}
-    //         onAddBtnClick={this.toggleHandlerAddButton}
-    //         key={id}
-    //         list={list}
-    //         cards={cardsCurrentList}
-    //         comments={this.state.comments}
-    //         render={this.renderCard}
-    //     />;
-    // }
-    //
-    // renderCard(commentsCurrentCard: Array<IComments>, cardId: string, card: ICards): any {
-    //
-    //     return <Card
-    //         comments={commentsCurrentCard}
-    //         key={cardId}
-    //         card={card}
-    //         render={this.renderComment}
-    //     />;
-    //
-    // }
-
-    // renderComment(commentsLength: number) {
-    //     return <Comments commentsCount={commentsLength}/>;
-    // }
-
     renderCommentsModal(commentId: string, comment: IComments) {
         return <CommentsModal
             key={commentId}
@@ -327,8 +295,6 @@ class BoardComponent extends React.Component<any, IState> {
 
     render() {
         const {lists, cards, comments} = this.state;
-        const {location} = this.props;
-        const isModal = location.state?.modal;
         return (
             <>
                 <div onClick={this.handlerResetState}
@@ -343,15 +309,38 @@ class BoardComponent extends React.Component<any, IState> {
                             key={list.id}
                             list={list}
                             cards={cardsCurrentList}
-                            comments={this.state.comments}
                             render={() => {
-
                                 return cardsCurrentList.map(card => {
                                     const commentsCurrentCard: Array<IComments> = comments.filter(comment => comment.idCard === card.id);
                                     return <Card
                                         card={card}
                                         comments={commentsCurrentCard}
                                         key={card.id}
+                                        renderCardModal={(hideModal: any) => {
+                                            return <CardModal
+                                                hideModal={hideModal}
+                                                changeTitleCards={this.changeTitleCards}
+                                                changeDescriptionCard={this.changeDescriptionCard}
+                                                deleteCard={this.deleteCard}
+                                                addNewComment={this.addNewComment}
+                                                listCards={list}
+                                                commentsCard={commentsCurrentCard}
+                                                card={card}
+                                                render={() => {
+                                                    return commentsCurrentCard.map( comment => {
+                                                        return <CommentsModal
+                                                            key={comment.id}
+                                                            comment={comment}
+                                                            deleteComment={this.deleteComment}
+                                                            changeCommentText={this.changeCommentText}
+                                                        />;
+                                                    });
+
+                                                }
+                                                }
+                                            />;
+                                        }
+                                        }
                                         render={() => {
                                             return <Comments commentsCount={commentsCurrentCard.length}/>;
                                         }}
@@ -363,18 +352,7 @@ class BoardComponent extends React.Component<any, IState> {
                     })
                     }
                 </div>
-                {isModal &&
-                <Route path="/cards/:id" children={
-                    <CardModal changeTitleCards={this.changeTitleCards}
-                               changeDescriptionCard={this.changeDescriptionCard}
-                               deleteCard={this.deleteCard}
-                               addNewComment={this.addNewComment}
-                               lists={lists}
-                               comments={comments}
-                               cards={cards}
-                               render={this.renderCommentsModal}
-                    />}
-                />}
+
             </>
         );
     }
@@ -382,4 +360,3 @@ class BoardComponent extends React.Component<any, IState> {
 }
 
 
-export const Board = withRouter<any, any>(BoardComponent);

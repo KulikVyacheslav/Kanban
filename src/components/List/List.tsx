@@ -1,12 +1,11 @@
 import React, {useState, useCallback, ReactNode} from 'react';
 import {nanoid} from 'nanoid';
 import './List.scss';
-import {RenderCards, ToggleAddButton, ILists, ICards, IComments} from "../../interfaces/interfaces";
+import {ToggleAddButton, ILists, ICards} from "../../interfaces/interfaces";
 
 interface ListProps {
     list: ILists,
     cards: Array<ICards>,
-    comments: Array<IComments>,
     onAddBtnClick(id: string | null): void,
     toggleAddCardForm: ToggleAddButton,
     addNewCard(idList: string, idCard: string, titleCard: string): void,
@@ -17,7 +16,6 @@ interface ListProps {
 export const List: React.FC<ListProps> = ({
                                               list,
                                               cards,
-                                              comments,
                                               onAddBtnClick,
                                               toggleAddCardForm,
                                               addNewCard,
@@ -27,7 +25,6 @@ export const List: React.FC<ListProps> = ({
 
     const [titleCards, setTitleCards] = useState<string>('');
 
-    console.log(titleCards)
     const handlerBtnAdd = useCallback((event: React.MouseEvent<HTMLButtonElement>): void => {
         event.stopPropagation();
         onAddBtnClick(list.id);
