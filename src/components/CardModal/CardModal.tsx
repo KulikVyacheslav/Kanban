@@ -1,35 +1,39 @@
-import React, {ReactNode, useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import './CardModal.scss';
 import close from './close.svg';
 import cardIcon from './card.svg';
 import description from './description.svg';
 import commentsIcon from './comments.svg';
-import {ICards, IComments, ILists} from "../../interfaces/interfaces";
+import {ICards, IComments, IProfile} from "../../interfaces/interfaces";
 import ReactModal from "react-modal";
+import {changeDescriptionCard, changeTitleCards, deleteCard} from "../Card/redux/cardsSlice";
+import {addNewComment} from 'components/Comments/redux/commentsSlice';
+import {AppDispatch} from '../../store';
 
 interface CardModalProps {
-    changeTitleCards(idCard: string | undefined, title: string): void,
-    changeDescriptionCard(idCard: string | undefined, description: string): void,
-    addNewComment(idCard: string | undefined, text: string): void,
-    deleteCard(idCard: string | undefined): void,
+    hideModal: any,
+    profile: IProfile,
     card: ICards,
+    listCards: ICards,
     commentsCard: Array<IComments>,
-    listCards: ILists,
-    render: () => ReactNode,
-    hideModal: any
+    dispatch: AppDispatch
 }
 
 ReactModal.setAppElement('#root');
 
-export const CardModal: React.FC<CardModalProps> = ({changeTitleCards, changeDescriptionCard, addNewComment, deleteCard, card, commentsCard, listCards, render, hideModal}) => {
+export const CardModal: React.FC<CardModalProps> = ({hideModal, profile, card, listCards, commentsCard, dispatch}) => {
 
     const [toggleTitleCard, setToggleTitleCard] = useState<boolean>(false);
     const [toggleDescCard, setToggleDescCard] = useState<boolean>(false);
     const [newComment, setNewComment] = useState<string>('');
 
 
+
+
+
+
+
     const handlerCloseModal = useCallback(() => {
-        // history.push('/board');
         hideModal();
     }, [hideModal]);
 
@@ -46,10 +50,10 @@ export const CardModal: React.FC<CardModalProps> = ({changeTitleCards, changeDes
 
     const handlerSendComment = useCallback((event: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (event.ctrlKey && event.key === 'Enter') {
-            addNewComment(card?.id, newComment);
+            addNewComment(card?.id as string, newComment, profile.name);
             setNewComment('');
         }
-    }, [addNewComment, setNewComment, card?.id, newComment]);
+    }, [setNewComment, card?.id, newComment, profile.name]);
 
     const handlerChangeDescription = useCallback((event: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (event.ctrlKey && event.key === 'Enter') {
@@ -60,17 +64,15 @@ export const CardModal: React.FC<CardModalProps> = ({changeTitleCards, changeDes
 
     const handlerDeleteCard = useCallback(() => {
         if(window.confirm('You are sure?')) {
-            deleteCard(card?.id);
-            //history.push('/board');
+            dispatch(deleteCard(card?.id as string));
             hideModal();
         }
 
-    }, [card?.id, deleteCard, hideModal]);
+    }, [dispatch, card?.id, hideModal]);
 
     useEffect(() => {
         const handleEsc = (event: any) => {
             if (event.key === 'Escape') {
-                //history.push('/board');
                 hideModal();
             }
         };
@@ -80,10 +82,6 @@ export const CardModal: React.FC<CardModalProps> = ({changeTitleCards, changeDes
         };
     }, [hideModal]);
 
-
-    // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
     return (
         <ReactModal isOpen className="card-modal">
 
@@ -99,7 +97,7 @@ export const CardModal: React.FC<CardModalProps> = ({changeTitleCards, changeDes
                                 onClick={(el) => el.stopPropagation()}
                                 type="text"
                                 value={card?.title}
-                                onChange={el => changeTitleCards(card?.id, el.currentTarget.value)}
+                                onChange={el => dispatch(changeTitleCards({id: card?.id as string, title: el.currentTarget.value}))}
                             /> :
                             <h3 onClick={handlerToggleCards}>{card?.title}</h3>
                         }
@@ -118,7 +116,7 @@ export const CardModal: React.FC<CardModalProps> = ({changeTitleCards, changeDes
                                       className="card-modal__description-field card-modal_ml-img"
                                       value={card?.description}
                                       onKeyUp={handlerChangeDescription}
-                                      onChange={el => changeDescriptionCard(card?.id, el.currentTarget.value)}
+                                      onChange={el => dispatch(changeDescriptionCard({id: card?.id as string, description: el.currentTarget.value}))}
                                       placeholder="Add a more detailed description..."
                             /> :
                             card?.description ?
@@ -144,14 +142,16 @@ export const CardModal: React.FC<CardModalProps> = ({changeTitleCards, changeDes
                                     placeholder='write comment'/>
                                 <button onClick={el => {
                                     el.preventDefault();
-                                    addNewComment(card?.id, newComment);
+                                    dispatch(addNewComment(card?.id as string, newComment, profile.name));
                                     setNewComment('');
                                 }} className="btn btn-primary card-modal__form-btn">Save
                                 </button>
                             </form>
                         </div>
                         <div className="card-modal__comment-field">
-                            {commentsCard.length > 0 && render()}
+                            {commentsCard.length > 0
+                            //&& commentsCard.map(comment => <CommentsModal key={comment.id} commentId={comment.id} />)
+                            }
                         </div>
                     </div>
                 </div>

@@ -4,7 +4,7 @@ import {Redirect, Route, Switch} from "react-router-dom";
 import {Greeting} from "./components/Greeting";
 import {Profile} from "./components/Profile";
 import {Board} from "./components/Board";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {selectProfile} from "./components/Profile/redux/profileSlice";
 
 

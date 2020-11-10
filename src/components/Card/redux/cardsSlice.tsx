@@ -41,10 +41,24 @@ const cardsSlice = createSlice({
                     }
                 };
             }
+        },
+        deleteCard: (state, action: PayloadAction<string>) => {
+            const indCard = state.findIndex(card => card.id === action.payload);
+            state.splice(indCard, 1);
+        },
+        changeTitleCards: (state, action: PayloadAction<{ id: string, title: string }>) => {
+            const {id, title} = action.payload;
+            const indCard = state.findIndex(card => card.id === id);
+            state[indCard].title = title;
+        },
+        changeDescriptionCard: (state, action: PayloadAction<{ id: string, description: string }>) => {
+            const {id, description} = action.payload;
+            const indCard = state.findIndex(card => card.id === id);
+            state[indCard].description = description;
         }
     }
 });
 
 export const selectCards = (state: RootStateI) => state.cards;
-export const {addNewCard} = cardsSlice.actions;
+export const {addNewCard, deleteCard, changeTitleCards, changeDescriptionCard} = cardsSlice.actions;
 export default cardsSlice.reducer;

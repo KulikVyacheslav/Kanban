@@ -1,12 +1,10 @@
-import React, {useState, useCallback, ReactNode} from 'react';
-import {nanoid} from 'nanoid';
+import React, {useState, useCallback} from 'react';
 import './List.scss';
-import {ToggleAddButton, ILists, ICards, RootStateI} from "../../interfaces/interfaces";
-import {addList, changeTitleList, selectLists} from './redux/listSlice';
+import {changeTitleList, selectLists} from './redux/listSlice';
 import {useDispatch, useSelector} from "react-redux";
 import {changeToggle, selectToogle} from "../Board/redux/toggleAddCardButtonSlice";
-import { IDBoardState } from 'types/types';
-import {addNewCard, selectCards } from 'components/Card/redux/cardsSlice';
+import {IDBoardState} from 'types/types';
+import {addNewCard, selectCards} from 'components/Card/redux/cardsSlice';
 import {Card} from "../Card";
 
 interface ListProps {
@@ -62,7 +60,7 @@ export const List: React.FC<ListProps> = ({listId}) => {
         event.preventDefault();
         dispatch(addNewCard(list?.id, titleCards));
         setTitleCards('');
-   }, [dispatch, list?.id, titleCards]);
+    }, [dispatch, list?.id, titleCards]);
 
     const handlerInputTitleCards = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setTitleCards(event.target.value);
@@ -72,12 +70,11 @@ export const List: React.FC<ListProps> = ({listId}) => {
     const handlerEnterKey = useCallback((event: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (event.key === 'Enter') {
             event.preventDefault();
-            //addNewCard(list.id, nanoid(), event.currentTarget.value);
+            dispatch(addNewCard(list?.id, titleCards));
             event.currentTarget.value = '';
             setTitleCards('');
         }
-    // }, [addNewCard, list.id]);
-     }, []);
+    }, [dispatch, titleCards, list?.id]);
 
 
     const handlerStopPropagation = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
@@ -85,10 +82,7 @@ export const List: React.FC<ListProps> = ({listId}) => {
     }, []);
 
 
-
-
-
-        return (
+    return (
 
         <div className="list list_margin-right">
             <div onClick={handlerStopPropagation}
@@ -103,7 +97,7 @@ export const List: React.FC<ListProps> = ({listId}) => {
 
                 <div className="list__cards">
                     {(cardsCurrentCard.length > 0 &&
-                        cardsCurrentCard.map( card => <Card key={card.id} cardId={card.id} />)
+                        cardsCurrentCard.map(card => <Card key={card.id} cardId={card.id}/>)
                     )}
                 </div>
                 {toggleAddCardButton.state && listId === toggleAddCardButton.id ? (
