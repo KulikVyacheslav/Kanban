@@ -1,7 +1,6 @@
-import {createSlice, Draft, nanoid, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, nanoid, PayloadAction} from '@reduxjs/toolkit';
 import {ILists, RootStateI} from '../../../interfaces/interfaces';
-import {RootState} from "../../../store";
-import {useSelector} from "react-redux";
+
 
 
 const initialState: Array<ILists> = [{

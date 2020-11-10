@@ -28,7 +28,6 @@ const cardsSlice = createSlice({
     reducers: {
         addNewCard: {
             reducer(state, action: PayloadAction<ICards>) {
-                console.log(action.payload);
                 state.push(action.payload);
             },
             prepare(idList, title) {

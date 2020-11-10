@@ -1,4 +1,4 @@
-import {createSlice, nanoid, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootStateI, ToggleAddButton} from "../../../interfaces/interfaces";
 
 const initialState: ToggleAddButton = {

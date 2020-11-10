@@ -1,4 +1,4 @@
-import React, {ReactNode} from "react";
+import React from "react";
 import './Card.scss';
 import { ICards, IComments } from "../../interfaces/interfaces";
 import { useModal } from "react-modal-hook";
@@ -8,6 +8,7 @@ import {CardModal} from "../CardModal";
 import {selectProfile} from "../Profile/redux/profileSlice";
 import {selectLists} from "../List/redux/listSlice";
 import {selectComments} from "../Comments/redux/commentsSlice";
+import {Comments} from "../Comments";
 
 interface CardProps {
     cardId: string,
@@ -46,7 +47,8 @@ export const Card: React.FC<CardProps> = ({cardId}) => {
                     <p>{card?.title}</p>
                 </div>
                 <div className="cards__components">
-                    {/*{comments.length > 0 && render()}*/}
+                    {commentsCard.length > 0 &&
+                    <Comments commentsCount={commentsCard.length} />}
                 </div>
             </div>
 

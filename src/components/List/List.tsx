@@ -25,7 +25,7 @@ export const List: React.FC<ListProps> = ({listId}) => {
 
     const toggleAddCardButton = useSelector(selectToogle);
 
-    const toggleHandlerAddButton = (id: IDBoardState): void => {
+    const toggleHandlerAddButton = useCallback((id: IDBoardState): void => {
 
         if (id !== toggleAddCardButton.id && toggleAddCardButton.id !== null) {
             dispatch(changeToggle({
@@ -44,7 +44,7 @@ export const List: React.FC<ListProps> = ({listId}) => {
                 id: null
             }));
         }
-    };
+    }, [toggleAddCardButton, dispatch]);
 
     const handlerBtnAdd = useCallback((event: React.MouseEvent<HTMLButtonElement>): void => {
         event.stopPropagation();
