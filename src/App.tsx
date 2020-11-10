@@ -1,46 +1,51 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {Layout} from "./components/Layout";
 import {Redirect, Route, Switch} from "react-router-dom";
-import {IProfile} from "./interfaces/interfaces";
-import {nanoid} from 'nanoid';
 import {Greeting} from "./components/Greeting";
 import {Profile} from "./components/Profile";
 import {Board} from "./components/Board";
+import {useDispatch, useSelector} from "react-redux";
+import {selectProfile} from "./components/Profile/redux/profileSlice";
 
 
 export const App = () => {
 
-    const [profile, setProfile] = useState<IProfile>({
-        name: '',
-        id: nanoid()
-    });
+    // const [profile, setProfile] = useState<IProfile>({
+    //     name: '',
+    //     id: nanoid()
+    // });
+
 
     const handlerName = useCallback((name: string): void => {
-        setProfile((profile) => {
-            return {
-                ...profile,
-                name,
-            };
-        });
+        // setProfile((profile) => {
+        //     return {
+        //         ...profile,
+        //         name,
+        //     };
+        // });
     }, []);
 
-    useEffect(() => {
-        const localVar = JSON.parse(localStorage.getItem('profile') as string);
-        if (!localVar) {
-            localStorage.setItem('profile', JSON.stringify(profile));
-        } else {
-            setProfile(localVar);
-        }
+    // useEffect(() => {
+    //     const localVar = JSON.parse(localStorage.getItem('profile') as string);
+    //     if (!localVar) {
+    //         localStorage.setItem('profile', JSON.stringify(profile));
+    //     } else {
+    //         setProfile(localVar);
+    //     }
+    //
+    //
+    // }, []);
+    //
+    // useEffect(() => {
+    //     if (profile.name !== '') {
+    //         localStorage.setItem('profile', JSON.stringify(profile));
+    //     }
+    //
+    // }, [profile]);
 
 
-    }, []);
+    const profile = useSelector(selectProfile);
 
-    useEffect(() => {
-        if (profile.name !== '') {
-            localStorage.setItem('profile', JSON.stringify(profile));
-        }
-
-    }, [profile]);
 
     return (
             <Layout>

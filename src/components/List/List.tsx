@@ -1,15 +1,22 @@
 import React, {useState, useCallback, ReactNode} from 'react';
 import {nanoid} from 'nanoid';
 import './List.scss';
-import {ToggleAddButton, ILists, ICards} from "../../interfaces/interfaces";
+import {ToggleAddButton, ILists, ICards, RootStateI} from "../../interfaces/interfaces";
+import {addList, changeTitleList as changeTitleListRedux} from './redux/listSlice'
+import {useDispatch, useSelector} from "react-redux";
 
 interface ListProps {
     list: ILists,
     cards: Array<ICards>,
+
     onAddBtnClick(id: string | null): void,
+
     toggleAddCardForm: ToggleAddButton,
+
     addNewCard(idList: string, idCard: string, titleCard: string): void,
+
     changeTitleList(idList: string, titleList: string): void,
+
     render: () => ReactNode
 }
 
@@ -29,10 +36,11 @@ export const List: React.FC<ListProps> = ({
         event.stopPropagation();
         onAddBtnClick(list.id);
     }, [onAddBtnClick, list.id]);
-
+    const dispatch = useDispatch();
     const handlerTitleList = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
-        changeTitleList(list.id, event.currentTarget.value);
-    }, [list.id, changeTitleList]);
+        //changeTitleList(list.id, event.currentTarget.value);
+        dispatch(changeTitleListRedux(list.id, event.currentTarget.value));
+    }, [dispatch, list.id]);
 
 
     const handlerBtnAddToList = useCallback((event: React.MouseEvent<HTMLButtonElement>): void => {
@@ -61,7 +69,10 @@ export const List: React.FC<ListProps> = ({
     }, []);
 
 
-    return (
+
+
+
+        return (
 
         <div className="list list_margin-right">
             <div onClick={handlerStopPropagation}
@@ -80,11 +91,11 @@ export const List: React.FC<ListProps> = ({
                 {toggleAddCardForm.state && list.id === toggleAddCardForm.id ? (
                     <div className="list__from">
                         <textarea
-                                className="list__from-input"
-                                placeholder="Enter a title for this card..."
-                                onKeyDown={handlerEnterKey}
-                                onChange={handlerInputTitleCards}
-                                value={titleCards}
+                            className="list__from-input"
+                            placeholder="Enter a title for this card..."
+                            onKeyDown={handlerEnterKey}
+                            onChange={handlerInputTitleCards}
+                            value={titleCards}
                         />
                         <button onClick={handlerBtnAddToList} className="btn btn-primary">Add card
                         </button>
