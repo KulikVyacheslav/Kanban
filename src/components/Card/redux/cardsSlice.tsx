@@ -1,5 +1,5 @@
 import {createSlice, nanoid, PayloadAction} from '@reduxjs/toolkit';
-import {ICards} from "../../../interfaces/interfaces";
+import {ICards, RootStateI} from "../../../interfaces/interfaces";
 
 const initialState: Array<ICards> = [
     {
@@ -26,9 +26,25 @@ const cardsSlice = createSlice({
     name: 'cards',
     initialState,
     reducers: {
-
+        addNewCard: {
+            reducer(state, action: PayloadAction<ICards>) {
+                console.log(action.payload);
+                state.push(action.payload);
+            },
+            prepare(idList, title) {
+                return {
+                    payload: {
+                        id: nanoid(),
+                        idList,
+                        title,
+                        description: ''
+                    }
+                };
+            }
+        }
     }
 });
 
-export const {} = cardsSlice.actions;
+export const selectCards = (state: RootStateI) => state.cards;
+export const {addNewCard} = cardsSlice.actions;
 export default cardsSlice.reducer;

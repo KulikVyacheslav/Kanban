@@ -6,20 +6,10 @@ import {addList, changeTitleList, selectLists} from './redux/listSlice';
 import {useDispatch, useSelector} from "react-redux";
 import {changeToggle, selectToogle} from "../Board/redux/toggleAddCardButtonSlice";
 import { IDBoardState } from 'types/types';
+import {addNewCard, selectCards } from 'components/Card/redux/cardsSlice';
+import {Card} from "../Card";
 
 interface ListProps {
-    // list: ILists,
-    // cards: Array<ICards>,
-    //
-    // onAddBtnClick(id: string | null): void,
-    //
-    // toggleAddCardForm: ToggleAddButton,
-    //
-    // addNewCard(idList: string, idCard: string, titleCard: string): void,
-    //
-    // changeTitleList(idList: string, titleList: string): void,
-    //
-    // render: () => ReactNode
     listId: string
 }
 
@@ -32,9 +22,13 @@ export const List: React.FC<ListProps> = ({listId}) => {
     const lists = useSelector(selectLists);
     const list = lists.find(list => list.id === listId);
 
+    const cards = useSelector(selectCards);
+    const cardsCurrentCard = cards.filter(card => card.idList === listId);
+
     const toggleAddCardButton = useSelector(selectToogle);
 
     const toggleHandlerAddButton = (id: IDBoardState): void => {
+
         if (id !== toggleAddCardButton.id && toggleAddCardButton.id !== null) {
             dispatch(changeToggle({
                 state: toggleAddCardButton.state,
@@ -60,17 +54,15 @@ export const List: React.FC<ListProps> = ({listId}) => {
     }, [toggleHandlerAddButton, list?.id]);
 
     const handlerTitleList = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
-        //changeTitleList(list.id, event.currentTarget.value);
-        console.log(list?.id as string, event.currentTarget.value)
         dispatch(changeTitleList(list?.id as string, event.currentTarget.value));
     }, [dispatch, list?.id]);
 
 
-    // const handlerBtnAddToList = useCallback((event: React.MouseEvent<HTMLButtonElement>): void => {
-    //     event.preventDefault();
-    //     addNewCard(list.id, nanoid(), titleCards);
-    //     setTitleCards('');
-    // }, [addNewCard, list.id, titleCards]);
+    const handlerBtnAddToList = useCallback((event: React.MouseEvent<HTMLButtonElement>): void => {
+        event.preventDefault();
+        dispatch(addNewCard(list?.id, titleCards));
+        setTitleCards('');
+   }, [dispatch, list?.id, titleCards]);
 
     const handlerInputTitleCards = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setTitleCards(event.target.value);
@@ -110,26 +102,28 @@ export const List: React.FC<ListProps> = ({listId}) => {
                 </div>
 
                 <div className="list__cards">
-                    {/*{(cards.length > 0 && render())}*/}
+                    {(cardsCurrentCard.length > 0 &&
+                        cardsCurrentCard.map( card => <Card key={card.id} cardId={card.id} />)
+                    )}
                 </div>
-                {/*{toggleAddCardForm.state && listId === toggleAddCardForm.id ? (*/}
-                {/*    <div className="list__from">*/}
-                {/*        <textarea*/}
-                {/*            className="list__from-input"*/}
-                {/*            placeholder="Enter a title for this card..."*/}
-                {/*            onKeyDown={handlerEnterKey}*/}
-                {/*            onChange={handlerInputTitleCards}*/}
-                {/*            value={titleCards}*/}
-                {/*        />*/}
-                {/*        <button onClick={handlerBtnAddToList} className="btn btn-primary">Add card*/}
-                {/*        </button>*/}
-                {/*    </div>*/}
-                {/*) : (*/}
-                {/*    <div className="list__add-card">*/}
-                {/*        <button id={listId} className="btn btn-light" onClick={handlerBtnAdd}>Add another card*/}
-                {/*        </button>*/}
-                {/*    </div>*/}
-                {/*)}*/}
+                {toggleAddCardButton.state && listId === toggleAddCardButton.id ? (
+                    <div className="list__from">
+                        <textarea
+                            className="list__from-input"
+                            placeholder="Enter a title for this card..."
+                            onKeyDown={handlerEnterKey}
+                            onChange={handlerInputTitleCards}
+                            value={titleCards}
+                        />
+                        <button onClick={handlerBtnAddToList} className="btn btn-primary">Add card
+                        </button>
+                    </div>
+                ) : (
+                    <div className="list__add-card">
+                        <button id={listId} className="btn btn-light" onClick={handlerBtnAdd}>Add another card
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
 

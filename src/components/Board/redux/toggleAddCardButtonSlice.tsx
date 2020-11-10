@@ -11,7 +11,8 @@ const toggleAddCardButtonSlice = createSlice({
     initialState,
     reducers: {
         changeToggle: (state, action: PayloadAction<ToggleAddButton>) => {
-            state = action.payload;
+            state.state = action.payload.state;
+            state.id = action.payload.id;
         }
 
     }
