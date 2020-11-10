@@ -1,22 +1,24 @@
 import React, {useCallback, useState} from 'react';
 import './CommentsModal.scss';
 import { IComments } from "../../interfaces/interfaces";
+import {AppDispatch} from "../../store";
+import {changeCommentText, deleteComment } from 'components/Comments/redux/commentsSlice';
 
 interface CommentsModalProps {
-    comment: IComments,
-    deleteComment(idComment: string): void,
-    changeCommentText(idComment: string, text: string): void
+    dispatch: AppDispatch,
+    comment:IComments
 }
 
-export const CommentsModal: React.FC<CommentsModalProps> = ({ comment, deleteComment, changeCommentText }) => {
+export const CommentsModal: React.FC<CommentsModalProps> = ({ dispatch, comment }) => {
 
     const [toggleChangeComment, setToggleChangeComment] = useState<boolean>(false);
     const handleDeleteComment = useCallback((event: React.MouseEvent<HTMLAnchorElement>) => {
         if(window.confirm('Are you sure?')) {
-            deleteComment(comment?.id);
+            dispatch(deleteComment(comment?.id));
         }
         event.preventDefault();
-    }, [deleteComment, comment?.id]);
+    }, [dispatch, comment?.id]);
+
 
     const handlerSaveCommentChange = useCallback((event: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (event.ctrlKey && event.key === 'Enter') {
@@ -35,12 +37,11 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ comment, deleteCom
                 {toggleChangeComment ?
                     <textarea
                         value={comment?.text}
-                        onChange={ev => changeCommentText(comment.id, ev.currentTarget.value)}
+                        onChange={ev => dispatch(changeCommentText({id: comment.id, text: ev.currentTarget.value}))}
                         onKeyUp={handlerSaveCommentChange}
                     /> :
                     <p onClick={() => setToggleChangeComment(true)}>{comment.text}</p>
                 }
-
             </div>
             <div className="comments-modal__delete">
                 <a onClick={handleDeleteComment} href='/'>Delete</a>

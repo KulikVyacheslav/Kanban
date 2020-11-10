@@ -50,3 +50,11 @@ export interface RenderCommentsModal {
     (commentId: string,
      comment: IComments): void
 }
+
+export interface RootStateI {
+    lists: Array<ILists>,
+    cards: Array<ICards>,
+    comments: Array<IComments>,
+    toggleAddCardButton: ToggleAddButton,
+    profile: IProfile
+}
