@@ -9,6 +9,7 @@ import ReactModal from "react-modal";
 import {changeDescriptionCard, changeTitleCards, deleteCard} from "../Card/redux/cardsSlice";
 import {addNewComment} from 'components/Comments/redux/commentsSlice';
 import {AppDispatch} from '../../store';
+import {CommentsModal} from "../CommentsModal";
 
 interface CardModalProps {
     hideModal: any,
@@ -150,7 +151,7 @@ export const CardModal: React.FC<CardModalProps> = ({hideModal, profile, card, l
                         </div>
                         <div className="card-modal__comment-field">
                             {commentsCard.length > 0
-                            //&& commentsCard.map(comment => <CommentsModal key={comment.id} commentId={comment.id} />)
+                            && commentsCard.map(comment => <CommentsModal key={comment.id} dispatch={dispatch} comment={comment} />)
                             }
                         </div>
                     </div>

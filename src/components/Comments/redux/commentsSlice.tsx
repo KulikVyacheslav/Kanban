@@ -34,10 +34,19 @@ const commentsSlice = createSlice({
                     }
                 };
             }
+        },
+        deleteComment: (state, action: PayloadAction<string>) => {
+            const indComment = state.findIndex(comment => comment.id === action.payload );
+            state.splice(indComment, 1);
+        },
+        changeCommentText: (state, action: PayloadAction<{ id: string, text: string }>) => {
+            const {id, text} = action.payload;
+            const indComment = state.findIndex(comment => comment.id === id );
+            state[indComment].text = text;
         }
     }
 });
 
 export const selectComments = (state: RootStateI) => state.comments;
-export const {addNewComment} = commentsSlice.actions;
+export const {addNewComment, deleteComment, changeCommentText} = commentsSlice.actions;
 export default commentsSlice.reducer;
