@@ -1,6 +1,7 @@
 import {createSlice, Draft, nanoid, PayloadAction} from '@reduxjs/toolkit';
 import {ILists, RootStateI} from '../../../interfaces/interfaces';
 import {RootState} from "../../../store";
+import {useSelector} from "react-redux";
 
 
 const initialState: Array<ILists> = [{
@@ -39,20 +40,13 @@ const listSlice = createSlice({
         },
         removeList: (state, action: PayloadAction<string>) => {
             state = state.filter( list => list.id !== action.payload);
+            //TODO
         },
         changeTitleList: {
             reducer(state, action: PayloadAction<ILists>) {
-
                 const {id, title} = action.payload;
-                state = state.map( list => {
-                   if (list.id === id) {
-                       return {
-                           id,
-                           title
-                       };
-                   }
-                    return list;
-                });
+                const indList = state.findIndex(list => list.id === id);
+                state[indList].title = title;
             },
             prepare(idList: string, title: string) {
                 return {
@@ -65,6 +59,8 @@ const listSlice = createSlice({
         },
     },
 });
+
+export const selectLists = (state: RootStateI) => state.lists;
 
 export const { addList, removeList, changeTitleList } = listSlice.actions;
 export default listSlice.reducer;

@@ -26,7 +26,7 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, combineReducers({
-    list: listSlice,
+    lists: listSlice,
     cards: cardsSlice,
     comments: commentsSlice,
     toggleAddCardButton: toggleAddCardButtonSlice,

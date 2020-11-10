@@ -10,56 +10,21 @@ import {selectProfile} from "./components/Profile/redux/profileSlice";
 
 export const App = () => {
 
-    // const [profile, setProfile] = useState<IProfile>({
-    //     name: '',
-    //     id: nanoid()
-    // });
-
-
-    const handlerName = useCallback((name: string): void => {
-        // setProfile((profile) => {
-        //     return {
-        //         ...profile,
-        //         name,
-        //     };
-        // });
-    }, []);
-
-    // useEffect(() => {
-    //     const localVar = JSON.parse(localStorage.getItem('profile') as string);
-    //     if (!localVar) {
-    //         localStorage.setItem('profile', JSON.stringify(profile));
-    //     } else {
-    //         setProfile(localVar);
-    //     }
-    //
-    //
-    // }, []);
-    //
-    // useEffect(() => {
-    //     if (profile.name !== '') {
-    //         localStorage.setItem('profile', JSON.stringify(profile));
-    //     }
-    //
-    // }, [profile]);
-
-
     const profile = useSelector(selectProfile);
-
 
     return (
             <Layout>
-                {(profile.name === '' && <Greeting handlerName={handlerName}/>)}
+                {(profile.name === '' && <Greeting />)}
                 <div className="content">
                     <Switch>
                         <Route exact path="/board">
-                            <Board profileName={profile.name}/>
+                            <Board />
                         </Route>
                         <Route exact path="/cards/:id">
-                            <Board profileName={profile.name}/>
+                            <Board />
                         </Route>
                         <Route path="/profile">
-                            <Profile changeProfileName={handlerName} profile={profile}/>
+                            <Profile />
                         </Route>
                         <Route path="*">
                             <Redirect to="/board"/>

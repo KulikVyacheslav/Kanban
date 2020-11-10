@@ -10,10 +10,12 @@ const profileSlice = createSlice({
     name: 'profile',
     initialState,
     reducers: {
-
+        changeName: (state, action: PayloadAction<string>) => {
+            state.name = action.payload;
+        }
     }
 });
 
 export const selectProfile = (state: RootStateI) => state.profile;
-export const {} = profileSlice.actions;
+export const {changeName} = profileSlice.actions;
 export default profileSlice.reducer;
