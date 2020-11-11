@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import './CommentsModal.scss';
-import {changeCommentText, deleteComment, selectComments} from 'components/Comments/redux/commentsSlice';
+import {changeCommentText, deleteComment, selectComments} from 'ducks/Comments/commentsSlice';
 import {useDispatch, useSelector} from "react-redux";
 
 interface CommentsModalProps {

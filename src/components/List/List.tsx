@@ -1,10 +1,10 @@
 import React, {useState, useCallback} from 'react';
 import './List.scss';
-import {changeTitleList, selectLists} from './redux/listSlice';
+import {changeTitleList, selectLists} from '../../ducks';
 import {useDispatch, useSelector} from "react-redux";
-import {changeToggle, selectToogle} from "../Board/redux/toggleAddCardButtonSlice";
+import {changeToggle, selectToogle} from "../../ducks";
 import {IDBoardState} from 'types/types';
-import {addNewCard, selectCards} from 'components/Card/redux/cardsSlice';
+import {addNewCard, selectCards} from 'ducks/Cards/cardsSlice';
 import {Card} from "../Card";
 
 interface ListProps {

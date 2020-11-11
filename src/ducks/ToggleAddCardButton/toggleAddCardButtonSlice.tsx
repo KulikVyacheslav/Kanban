@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {RootStateI, ToggleAddButton} from "../../../interfaces/interfaces";
+import {RootStateI, ToggleAddButton} from "../../interfaces/interfaces";
 
 const initialState: ToggleAddButton = {
     id: null,
@@ -20,4 +20,4 @@ const toggleAddCardButtonSlice = createSlice({
 
 export const selectToogle = (state: RootStateI) => state.toggleAddCardButton;
 export const {changeToggle} = toggleAddCardButtonSlice.actions;
-export default toggleAddCardButtonSlice.reducer;
+export const toggleAddCardButtonReducer = toggleAddCardButtonSlice.reducer;

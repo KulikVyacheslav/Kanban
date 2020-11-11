@@ -13,11 +13,14 @@ import {
 import storage from 'redux-persist/lib/storage';
 
 import {useDispatch} from 'react-redux';
-import listSlice from './components/List/redux/listSlice';
-import cardsSlice from './components/Card/redux/cardsSlice';
-import commentsSlice from './components/Comments/redux/commentsSlice';
-import toggleAddCardButtonSlice from './components/Board/redux/toggleAddCardButtonSlice';
-import profileSlice from './components/Profile/redux/profileSlice';
+import {
+    listReducer,
+    cardsReducer,
+    commentsReducer,
+    toggleAddCardButtonReducer,
+    profileReducer
+} from './ducks';
+
 
 const persistConfig = {
     key: 'root',
@@ -26,11 +29,11 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, combineReducers({
-    lists: listSlice,
-    cards: cardsSlice,
-    comments: commentsSlice,
-    toggleAddCardButton: toggleAddCardButtonSlice,
-    profile: profileSlice
+    lists: listReducer,
+    cards: cardsReducer,
+    comments: commentsReducer,
+    toggleAddCardButton: toggleAddCardButtonReducer,
+    profile: profileReducer
 
 }));
 
