@@ -2,9 +2,9 @@ import React from "react";
 import './Card.scss';
 import { useModal } from "react-modal-hook";
 import {useSelector} from "react-redux";
-import {selectCards} from "./redux/cardsSlice";
+import {selectCards} from "../../ducks";
 import {CardModal} from "../CardModal";
-import {selectComments} from "../Comments/redux/commentsSlice";
+import {selectComments} from "../../ducks";
 import {Comments} from "../Comments";
 
 interface CardProps {

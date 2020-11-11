@@ -1,5 +1,5 @@
 import {createSlice, nanoid, PayloadAction} from '@reduxjs/toolkit';
-import {ILists, RootStateI} from '../../../interfaces/interfaces';
+import {ILists, RootStateI} from '../../interfaces/interfaces';
 
 
 
@@ -62,4 +62,4 @@ const listSlice = createSlice({
 export const selectLists = (state: RootStateI) => state.lists;
 
 export const { addList, removeList, changeTitleList } = listSlice.actions;
-export default listSlice.reducer;
+export const listReducer =  listSlice.reducer;

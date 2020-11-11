@@ -5,7 +5,7 @@ import {Greeting} from "./components/Greeting";
 import {Profile} from "./components/Profile";
 import {Board} from "./components/Board";
 import {useSelector} from "react-redux";
-import {selectProfile} from "./components/Profile/redux/profileSlice";
+import {selectProfile} from "./ducks";
 
 
 export const App = () => {

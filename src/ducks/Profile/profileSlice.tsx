@@ -1,5 +1,5 @@
 import {createSlice, nanoid, PayloadAction} from '@reduxjs/toolkit';
-import {IProfile, RootStateI} from "../../../interfaces/interfaces";
+import {IProfile, RootStateI} from "../../interfaces/interfaces";
 
 const initialState: IProfile = {
     id: nanoid(),
@@ -18,4 +18,4 @@ const profileSlice = createSlice({
 
 export const selectProfile = (state: RootStateI) => state.profile;
 export const {changeName} = profileSlice.actions;
-export default profileSlice.reducer;
+export const profileReducer = profileSlice.reducer;

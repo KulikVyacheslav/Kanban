@@ -2,8 +2,8 @@ import React, {} from 'react';
 import './Board.scss';
 import {List} from "../List";
 import {useDispatch, useSelector} from "react-redux";
-import { selectLists } from 'components/List/redux/listSlice';
-import {changeToggle, selectToogle} from "./redux/toggleAddCardButtonSlice";
+import { selectLists } from 'ducks/Lists/listSlice';
+import {changeToggle, selectToogle} from "../../ducks";
 
 
 

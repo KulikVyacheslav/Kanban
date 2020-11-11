@@ -6,12 +6,12 @@ import description from './description.svg';
 import commentsIcon from './comments.svg';
 
 import ReactModal from "react-modal";
-import {changeDescriptionCard, changeTitleCards, deleteCard, selectCards} from "../Card/redux/cardsSlice";
-import {addNewComment, selectComments} from 'components/Comments/redux/commentsSlice';
+import {changeDescriptionCard, changeTitleCards, deleteCard, selectCards} from "../../ducks";
+import {addNewComment, selectComments} from 'ducks/Comments/commentsSlice';
 import {CommentsModal} from "../CommentsModal";
 import {useDispatch, useSelector} from "react-redux";
-import {selectProfile} from "../Profile/redux/profileSlice";
-import {selectLists} from "../List/redux/listSlice";
+import {selectProfile} from "../../ducks";
+import {selectLists} from "../../ducks";
 
 interface CardModalProps {
     hideModal: any,

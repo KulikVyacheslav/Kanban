@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './Greeting.scss';
 import {useDispatch} from "react-redux";
-import { changeName } from 'components/Profile/redux/profileSlice';
+import { changeName } from 'ducks/Profile/profileSlice';
 
 
 interface GreetingProps {
