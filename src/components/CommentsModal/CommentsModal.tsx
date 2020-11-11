@@ -1,20 +1,22 @@
 import React, {useCallback, useState} from 'react';
 import './CommentsModal.scss';
-import { IComments } from "../../interfaces/interfaces";
-import {AppDispatch} from "../../store";
-import {changeCommentText, deleteComment } from 'components/Comments/redux/commentsSlice';
+import {changeCommentText, deleteComment, selectComments} from 'components/Comments/redux/commentsSlice';
+import {useDispatch, useSelector} from "react-redux";
 
 interface CommentsModalProps {
-    dispatch: AppDispatch,
-    comment:IComments
+    commentId: string
 }
 
-export const CommentsModal: React.FC<CommentsModalProps> = ({ dispatch, comment }) => {
+export const CommentsModal: React.FC<CommentsModalProps> = ({ commentId }) => {
+
+    const dispatch = useDispatch();
+    const comments = useSelector(selectComments);
+    const comment = comments.find( comment => comment.id === commentId);
 
     const [toggleChangeComment, setToggleChangeComment] = useState<boolean>(false);
     const handleDeleteComment = useCallback((event: React.MouseEvent<HTMLAnchorElement>) => {
         if(window.confirm('Are you sure?')) {
-            dispatch(deleteComment(comment?.id));
+            dispatch(deleteComment(comment?.id as string));
         }
         event.preventDefault();
     }, [dispatch, comment?.id]);
@@ -30,17 +32,17 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ dispatch, comment 
         <div className="comments-modal comments-modal_mt">
             <div className="comments-modal__author">
                 <h5 className="comments-modal__author-title">
-                    {comment.author}
+                    {comment?.author}
                 </h5>
             </div>
             <div className="comments-modal__text">
                 {toggleChangeComment ?
                     <textarea
                         value={comment?.text}
-                        onChange={ev => dispatch(changeCommentText({id: comment.id, text: ev.currentTarget.value}))}
+                        onChange={ev => dispatch(changeCommentText({id: comment?.id as string, text: ev.currentTarget.value}))}
                         onKeyUp={handlerSaveCommentChange}
                     /> :
-                    <p onClick={() => setToggleChangeComment(true)}>{comment.text}</p>
+                    <p onClick={() => setToggleChangeComment(true)}>{comment?.text}</p>
                 }
             </div>
             <div className="comments-modal__delete">
