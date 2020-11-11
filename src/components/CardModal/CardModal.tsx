@@ -4,32 +4,36 @@ import close from './close.svg';
 import cardIcon from './card.svg';
 import description from './description.svg';
 import commentsIcon from './comments.svg';
-import {ICards, IComments, IProfile} from "../../interfaces/interfaces";
+
 import ReactModal from "react-modal";
-import {changeDescriptionCard, changeTitleCards, deleteCard} from "../Card/redux/cardsSlice";
-import {addNewComment} from 'components/Comments/redux/commentsSlice';
-import {AppDispatch} from '../../store';
+import {changeDescriptionCard, changeTitleCards, deleteCard, selectCards} from "../Card/redux/cardsSlice";
+import {addNewComment, selectComments} from 'components/Comments/redux/commentsSlice';
 import {CommentsModal} from "../CommentsModal";
+import {useDispatch, useSelector} from "react-redux";
+import {selectProfile} from "../Profile/redux/profileSlice";
+import {selectLists} from "../List/redux/listSlice";
 
 interface CardModalProps {
     hideModal: any,
-    profile: IProfile,
-    card: ICards,
-    listCards: ICards,
-    commentsCard: Array<IComments>,
-    dispatch: AppDispatch
+    cardId: string,
 }
 
 ReactModal.setAppElement('#root');
 
-export const CardModal: React.FC<CardModalProps> = ({hideModal, profile, card, listCards, commentsCard, dispatch}) => {
+export const CardModal: React.FC<CardModalProps> = ({hideModal, cardId}) => {
 
     const [toggleTitleCard, setToggleTitleCard] = useState<boolean>(false);
     const [toggleDescCard, setToggleDescCard] = useState<boolean>(false);
     const [newComment, setNewComment] = useState<string>('');
 
-
-
+    const cards = useSelector(selectCards);
+    const profile = useSelector(selectProfile);
+    const card = cards.find( card => card.id === cardId);
+    const lists = useSelector(selectLists);
+    const listCards = lists.find( list => list.id === card?.idList);
+    const comments = useSelector(selectComments);
+    const commentsCard = comments.filter( comment => comment.idCard === card?.id);
+    const dispatch = useDispatch();
 
 
 
@@ -151,7 +155,7 @@ export const CardModal: React.FC<CardModalProps> = ({hideModal, profile, card, l
                         </div>
                         <div className="card-modal__comment-field">
                             {commentsCard.length > 0
-                            && commentsCard.map(comment => <CommentsModal key={comment.id} dispatch={dispatch} comment={comment} />)
+                            && commentsCard.map(comment => <CommentsModal key={comment.id} commentId={comment.id} />)
                             }
                         </div>
                     </div>

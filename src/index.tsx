@@ -13,15 +13,17 @@ import {PersistGate} from "redux-persist/integration/react";
 
 ReactDOM.render(
     <Router>
-        <ModalProvider>
-            <React.StrictMode>
-                <Provider store={store}>
+
+        <React.StrictMode>
+            <Provider store={store}>
+                <ModalProvider>
                     <PersistGate loading={null} persistor={persistor}>
-                    <App/>
+                        <App/>
                     </PersistGate>
-                </Provider>
-            </React.StrictMode>
-        </ModalProvider>
+                </ModalProvider>
+            </Provider>
+        </React.StrictMode>
+
     </Router>
     , document.getElementById('root')
 );
