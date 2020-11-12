@@ -17,7 +17,6 @@ export const Card: React.FC<CardProps> = ({cardId}) => {
     const cards = useSelector(selectCards);
     const card = cards.find( card => card.id === cardId);
     const comments = useSelector(selectComments);
-    console.log(comments, 'comments')
     const commentsCard = comments.filter( comment => comment.idCard === card?.id);
 
     const [showModal, hideModal] = useModal(() => (

@@ -11,6 +11,10 @@
     }
   }
 
+  &__handle {
+    display: flex;
+  }
+
   &__text {
 
     textarea {
@@ -31,6 +35,14 @@
     font-size: 15px;
     a {
       color: #8d8d8d;
+      margin-left: 5px;
+    }
+  }
+
+  &__save {
+    font-size: 15px;
+    a {
+      color: #497807;
       margin-left: 5px;
     }
   }
