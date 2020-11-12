@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import './CommentsModal.scss';
-import {changeCommentText, deleteComment, selectComments} from 'ducks/Comments/commentsSlice';
+import {fetchChangeCommentById, fetchDeleteCommentById, selectComments} from 'ducks';
 import {useDispatch, useSelector} from "react-redux";
 
 interface CommentsModalProps {
@@ -9,14 +9,16 @@ interface CommentsModalProps {
 
 export const CommentsModal: React.FC<CommentsModalProps> = ({ commentId }) => {
 
+
     const dispatch = useDispatch();
     const comments = useSelector(selectComments);
     const comment = comments.find( comment => comment.id === commentId);
+    const  [commentText, setCommentText]  = useState<string>(comment?.text!);
 
     const [toggleChangeComment, setToggleChangeComment] = useState<boolean>(false);
     const handleDeleteComment = useCallback((event: React.MouseEvent<HTMLAnchorElement>) => {
         if(window.confirm('Are you sure?')) {
-            dispatch(deleteComment(comment?.id as string));
+            dispatch(fetchDeleteCommentById(comment?.id as string));
         }
         event.preventDefault();
     }, [dispatch, comment?.id]);
@@ -24,9 +26,16 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ commentId }) => {
 
     const handlerSaveCommentChange = useCallback((event: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (event.ctrlKey && event.key === 'Enter') {
+            dispatch(fetchChangeCommentById({...comment!, text: commentText}));
             setToggleChangeComment(false);
         }
-    }, []);
+    }, [dispatch,comment, commentText]);
+
+    const handleSaveComment = useCallback((event: React.MouseEvent<HTMLAnchorElement>) => {
+        dispatch(fetchChangeCommentById({...comment!, text: commentText}));
+        setToggleChangeComment(false);
+        event.preventDefault();
+    }, [commentText, dispatch, comment]);
 
     return (
         <div className="comments-modal comments-modal_mt">
@@ -38,17 +47,23 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ commentId }) => {
             <div className="comments-modal__text">
                 {toggleChangeComment ?
                     <textarea
-                        value={comment?.text}
-                        onChange={ev => dispatch(changeCommentText({id: comment?.id as string, text: ev.currentTarget.value}))}
+                        value={commentText}
+                        onChange={e => setCommentText(e.currentTarget.value)}
                         onKeyUp={handlerSaveCommentChange}
                     /> :
-                    <p onClick={() => setToggleChangeComment(true)}>{comment?.text}</p>
+                    <p onClick={() => setToggleChangeComment(true)}>{commentText}</p>
                 }
             </div>
-            <div className="comments-modal__delete">
-                <a onClick={handleDeleteComment} href='/'>Delete</a>
+            <div className="comments-modal__handle">
+                <div className="comments-modal__delete">
+                    <a onClick={handleDeleteComment} href='/'>Delete</a>
+                </div>
+                {toggleChangeComment &&
+                <div className="comments-modal__save">
+                    <a onClick={handleSaveComment} href='/'>Save</a>
+                </div>
+                }
             </div>
-
         </div>
     );
 };

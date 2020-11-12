@@ -29,7 +29,9 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"npm:start-dev\" \"npm:startJSON\"",
+    "start-dev": "react-scripts start",
+    "startJSON": "json-server --watch db/db.json -p 3005 -d 2000",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -57,5 +59,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "json-server": "^0.16.2"
   }
 }

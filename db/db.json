@@ -1,0 +1,54 @@
+{
+  "lists": [
+    {
+      "title": "TODO",
+      "id": "adc123s"
+    },
+    {
+      "title": "In Progress",
+      "id": "adc123s123"
+    },
+    {
+      "title": "Testing",
+      "id": "asdasd123sad"
+    },
+    {
+      "title": "Done",
+      "id": "adsasdsasad12123321sadfa"
+    }
+  ],
+  "cards": [
+    {
+      "id": "asdas213sad",
+      "idList": "adc123s",
+      "title": "Test card",
+      "description": "Test desc"
+    },
+    {
+      "id": "asdas213sadasd",
+      "idList": "adc123s",
+      "title": "Test card 2",
+      "description": "Test desc"
+    },
+    {
+      "id": "asdas213sadaas",
+      "idList": "adc123s123",
+      "title": "Test card 2",
+      "description": "Test desc"
+    }
+  ],
+  "comments": [
+    {
+      "author": "WebDev",
+      "id": "dasdasd123213saasd",
+      "idCard": "asdas213sad",
+      "text": "Test comments"
+    },
+    {
+      "author": "WebDev",
+      "id": "dasdasdasd12asda",
+      "idCard": "asdas213sad",
+      "text": "Test comments 2"
+    }
+  ]
+}

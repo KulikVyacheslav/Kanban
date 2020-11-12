@@ -6,12 +6,13 @@ import description from './description.svg';
 import commentsIcon from './comments.svg';
 
 import ReactModal from "react-modal";
-import {changeDescriptionCard, changeTitleCards, deleteCard, selectCards} from "../../ducks";
+import {changeDescriptionCard, changeTitleCards, deleteCard, fetchAddNewComment, selectCards} from "../../ducks";
 import {addNewComment, selectComments} from 'ducks/Comments/commentsSlice';
 import {CommentsModal} from "../CommentsModal";
 import {useDispatch, useSelector} from "react-redux";
 import {selectProfile} from "../../ducks";
 import {selectLists} from "../../ducks";
+import {nanoid} from "@reduxjs/toolkit";
 
 interface CardModalProps {
     hideModal: any,
@@ -28,14 +29,12 @@ export const CardModal: React.FC<CardModalProps> = ({hideModal, cardId}) => {
 
     const cards = useSelector(selectCards);
     const profile = useSelector(selectProfile);
-    const card = cards.find( card => card.id === cardId);
+    const card = cards.find(card => card.id === cardId);
     const lists = useSelector(selectLists);
-    const listCards = lists.find( list => list.id === card?.idList);
+    const listCards = lists.find(list => list.id === card?.idList);
     const comments = useSelector(selectComments);
-    const commentsCard = comments.filter( comment => comment.idCard === card?.id);
+    const commentsCard = comments.filter(comment => comment.idCard === card?.id);
     const dispatch = useDispatch();
-
-
 
 
     const handlerCloseModal = useCallback(() => {
@@ -68,7 +67,7 @@ export const CardModal: React.FC<CardModalProps> = ({hideModal, cardId}) => {
 
 
     const handlerDeleteCard = useCallback(() => {
-        if(window.confirm('You are sure?')) {
+        if (window.confirm('You are sure?')) {
             dispatch(deleteCard(card?.id as string));
             hideModal();
         }
@@ -102,7 +101,10 @@ export const CardModal: React.FC<CardModalProps> = ({hideModal, cardId}) => {
                                 onClick={(el) => el.stopPropagation()}
                                 type="text"
                                 value={card?.title}
-                                onChange={el => dispatch(changeTitleCards({id: card?.id as string, title: el.currentTarget.value}))}
+                                onChange={el => dispatch(changeTitleCards({
+                                    id: card?.id as string,
+                                    title: el.currentTarget.value
+                                }))}
                             /> :
                             <h3 onClick={handlerToggleCards}>{card?.title}</h3>
                         }
@@ -121,7 +123,10 @@ export const CardModal: React.FC<CardModalProps> = ({hideModal, cardId}) => {
                                       className="card-modal__description-field card-modal_ml-img"
                                       value={card?.description}
                                       onKeyUp={handlerChangeDescription}
-                                      onChange={el => dispatch(changeDescriptionCard({id: card?.id as string, description: el.currentTarget.value}))}
+                                      onChange={el => dispatch(changeDescriptionCard({
+                                          id: card?.id as string,
+                                          description: el.currentTarget.value
+                                      }))}
                                       placeholder="Add a more detailed description..."
                             /> :
                             card?.description ?
@@ -147,7 +152,12 @@ export const CardModal: React.FC<CardModalProps> = ({hideModal, cardId}) => {
                                     placeholder='write comment'/>
                                 <button onClick={el => {
                                     el.preventDefault();
-                                    dispatch(addNewComment(card?.id as string, newComment, profile.name));
+                                    dispatch(fetchAddNewComment({
+                                        idCard: card?.id as string,
+                                        text: newComment,
+                                        author: profile.name,
+                                        id: nanoid()
+                                    }));
                                     setNewComment('');
                                 }} className="btn btn-primary card-modal__form-btn">Save
                                 </button>
@@ -155,7 +165,7 @@ export const CardModal: React.FC<CardModalProps> = ({hideModal, cardId}) => {
                         </div>
                         <div className="card-modal__comment-field">
                             {commentsCard.length > 0
-                            && commentsCard.map(comment => <CommentsModal key={comment.id} commentId={comment.id} />)
+                            && commentsCard.map(comment => <CommentsModal key={comment.id} commentId={comment.id}/>)
                             }
                         </div>
                     </div>

@@ -25,7 +25,8 @@ import {
 const persistConfig = {
     key: 'root',
     version: 1,
-    storage
+    storage,
+    blacklist: ['comments']
 };
 
 const persistedReducer = persistReducer(persistConfig, combineReducers({

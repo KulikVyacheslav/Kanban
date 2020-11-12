@@ -1,16 +1,20 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Layout} from "./components/Layout";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {Greeting} from "./components/Greeting";
 import {Profile} from "./components/Profile";
 import {Board} from "./components/Board";
-import {useSelector} from "react-redux";
-import {selectProfile} from "./ducks";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchAllComments, selectProfile} from "./ducks";
 
 
 export const App = () => {
 
     const profile = useSelector(selectProfile);
+    const dsipatch = useDispatch();
+    useEffect( () => {
+        dsipatch(fetchAllComments());
+    });
 
     return (
             <Layout>

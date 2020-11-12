@@ -54,7 +54,13 @@ export interface RenderCommentsModal {
 export interface RootStateI {
     lists: Array<ILists>,
     cards: Array<ICards>,
-    comments: Array<IComments>,
+    comments: ICommentsState,
     toggleAddCardButton: ToggleAddButton,
     profile: IProfile
+}
+
+export interface ICommentsState {
+    comments: IComments[],
+    loading: boolean,
+    error: object
 }
