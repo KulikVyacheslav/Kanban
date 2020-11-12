@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import './CommentsModal.scss';
-import {changeCommentText, deleteComment, selectComments} from 'ducks/Comments/commentsSlice';
+import {changeCommentText, deleteComment, fetchCommentById, selectComments} from 'ducks';
 import {useDispatch, useSelector} from "react-redux";
 
 interface CommentsModalProps {
@@ -48,7 +48,7 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ commentId }) => {
             <div className="comments-modal__delete">
                 <a onClick={handleDeleteComment} href='/'>Delete</a>
             </div>
-
+            <button onClick={() => dispatch(fetchCommentById(comment?.id as string))}>stst</button>
         </div>
     );
 };
