@@ -1,24 +1,28 @@
-import React, {} from 'react';
+import React, {useState} from 'react';
 import './Board.scss';
 import {List} from "../List";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import { selectLists } from 'ducks/Lists/listSlice';
-import {changeToggle, selectToogle} from "../../ducks";
+import {ToggleAddButton} from "../../interfaces/interfaces";
 
 
 
 export const Board: React.FC = () => {
 
     const lists = useSelector(selectLists);
-    const toggleAddCardButton = useSelector(selectToogle);
-    const dispatch = useDispatch();
+
+    const [toggleAddCardButton, setToggleAddCardButton] = useState<ToggleAddButton>({
+        id: null,
+        state: false
+    });
+
 
         const handlerResetState = (event: React.MouseEvent<HTMLDivElement>): void => {
         if (toggleAddCardButton.state) {
-            dispatch(changeToggle({
+            setToggleAddCardButton({
                 state: false,
                 id: null
-            }));
+            });
         }
     };
 
@@ -28,7 +32,7 @@ export const Board: React.FC = () => {
         <>
             <div onClick={handlerResetState}
                  className="board">
-                {lists.map( list => <List key={list.id}  listId={list.id} />)}
+                {lists.map( list => <List toggleAddCardButton={toggleAddCardButton} setToggleAddCardButton={setToggleAddCardButton} key={list.id}  listId={list.id} />)}
             </div>
         </>
     );

@@ -17,7 +17,6 @@ import {
     listReducer,
     cardsReducer,
     commentsReducer,
-    toggleAddCardButtonReducer,
     profileReducer
 } from './ducks';
 
@@ -33,7 +32,6 @@ const persistedReducer = persistReducer(persistConfig, combineReducers({
     lists: listReducer,
     cards: cardsReducer,
     comments: commentsReducer,
-    toggleAddCardButton: toggleAddCardButtonReducer,
     profile: profileReducer
 
 }));
