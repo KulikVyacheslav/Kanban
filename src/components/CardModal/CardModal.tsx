@@ -6,8 +6,8 @@ import description from './description.svg';
 import commentsIcon from './comments.svg';
 
 import ReactModal from "react-modal";
-import {changeDescriptionCard, changeTitleCards, deleteCard, fetchAddNewComment, selectCards} from "../../ducks";
-import {addNewComment, selectComments} from 'ducks/Comments/commentsSlice';
+import {changeCardDescription, changeCardTitle, deleteCard, addComment, selectCards} from "../../ducks";
+import {selectComments} from 'ducks/Comments/commentsSlice';
 import {CommentsModal} from "../CommentsModal";
 import {useDispatch, useSelector} from "react-redux";
 import {selectProfile} from "../../ducks";
@@ -54,7 +54,12 @@ export const CardModal: React.FC<CardModalProps> = ({hideModal, cardId}) => {
 
     const handlerSendComment = useCallback((event: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (event.ctrlKey && event.key === 'Enter') {
-            addNewComment(card?.id as string, newComment, profile.name);
+            addComment({
+                idCard: card?.id as string,
+                text: newComment,
+                author: profile.name,
+                id: nanoid()
+            });
             setNewComment('');
         }
     }, [setNewComment, card?.id, newComment, profile.name]);
@@ -101,7 +106,7 @@ export const CardModal: React.FC<CardModalProps> = ({hideModal, cardId}) => {
                                 onClick={(el) => el.stopPropagation()}
                                 type="text"
                                 value={card?.title}
-                                onChange={el => dispatch(changeTitleCards({
+                                onChange={el => dispatch(changeCardTitle({
                                     id: card?.id as string,
                                     title: el.currentTarget.value
                                 }))}
@@ -123,7 +128,7 @@ export const CardModal: React.FC<CardModalProps> = ({hideModal, cardId}) => {
                                       className="card-modal__description-field card-modal_ml-img"
                                       value={card?.description}
                                       onKeyUp={handlerChangeDescription}
-                                      onChange={el => dispatch(changeDescriptionCard({
+                                      onChange={el => dispatch(changeCardDescription({
                                           id: card?.id as string,
                                           description: el.currentTarget.value
                                       }))}
@@ -152,7 +157,7 @@ export const CardModal: React.FC<CardModalProps> = ({hideModal, cardId}) => {
                                     placeholder='write comment'/>
                                 <button onClick={el => {
                                     el.preventDefault();
-                                    dispatch(fetchAddNewComment({
+                                    dispatch(addComment({
                                         idCard: card?.id as string,
                                         text: newComment,
                                         author: profile.name,

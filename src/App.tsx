@@ -5,7 +5,7 @@ import {Greeting} from "./components/Greeting";
 import {Profile} from "./components/Profile";
 import {Board} from "./components/Board";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchAllComments, selectProfile} from "./ducks";
+import {getAllComments, selectProfile} from "./ducks";
 
 
 export const App = () => {
@@ -13,7 +13,7 @@ export const App = () => {
     const profile = useSelector(selectProfile);
     const dsipatch = useDispatch();
     useEffect( () => {
-        dsipatch(fetchAllComments());
+        dsipatch(getAllComments());
     });
 
     return (

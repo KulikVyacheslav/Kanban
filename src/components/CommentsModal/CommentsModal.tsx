@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import './CommentsModal.scss';
-import {fetchChangeCommentById, fetchDeleteCommentById, selectComments} from 'ducks';
+import {changeCommentById, deleteCommentById, selectComments} from 'ducks';
 import {useDispatch, useSelector} from "react-redux";
 
 interface CommentsModalProps {
@@ -18,7 +18,7 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ commentId }) => {
     const [toggleChangeComment, setToggleChangeComment] = useState<boolean>(false);
     const handleDeleteComment = useCallback((event: React.MouseEvent<HTMLAnchorElement>) => {
         if(window.confirm('Are you sure?')) {
-            dispatch(fetchDeleteCommentById(comment?.id as string));
+            dispatch(deleteCommentById(comment?.id as string));
         }
         event.preventDefault();
     }, [dispatch, comment?.id]);
@@ -26,13 +26,13 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ commentId }) => {
 
     const handlerSaveCommentChange = useCallback((event: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (event.ctrlKey && event.key === 'Enter') {
-            dispatch(fetchChangeCommentById({...comment!, text: commentText}));
+            dispatch(changeCommentById({...comment!, text: commentText}));
             setToggleChangeComment(false);
         }
     }, [dispatch,comment, commentText]);
 
     const handleSaveComment = useCallback((event: React.MouseEvent<HTMLAnchorElement>) => {
-        dispatch(fetchChangeCommentById({...comment!, text: commentText}));
+        dispatch(changeCommentById({...comment!, text: commentText}));
         setToggleChangeComment(false);
         event.preventDefault();
     }, [commentText, dispatch, comment]);
