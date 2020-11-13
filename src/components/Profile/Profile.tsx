@@ -1,20 +1,22 @@
 import React, {} from "react";
 import './Profile.scss';
-import {IProfile} from "../../interfaces/interfaces";
+import {useDispatch, useSelector} from "react-redux";
+import {changeName, selectProfile} from "../../ducks";
 
 interface ProfileProps {
-    profile: IProfile,
-    changeProfileName(name: string): void
 }
 
-export const Profile: React.FC<ProfileProps> = ({profile, changeProfileName}) => {
+export const Profile: React.FC<ProfileProps> = () => {
+
+    const profile = useSelector(selectProfile);
+    const dispatch = useDispatch();
 
     const handlerChangeName = (ev: React.FormEvent<HTMLTextAreaElement>) => {
         if (ev.currentTarget.value === '') {
-            changeProfileName('empty');
+            dispatch(changeName('empty'));
             //TODO
         } else {
-            changeProfileName(ev.currentTarget.value);
+            dispatch(changeName(ev.currentTarget.value));
         }
 
     };

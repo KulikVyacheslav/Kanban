@@ -50,3 +50,16 @@ export interface RenderCommentsModal {
     (commentId: string,
      comment: IComments): void
 }
+
+export interface RootStateI {
+    lists: Array<ILists>,
+    cards: Array<ICards>,
+    comments: ICommentsState,
+    profile: IProfile
+}
+
+export interface ICommentsState {
+    comments: IComments[],
+    loading: boolean,
+    error: object
+}

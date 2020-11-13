@@ -3,6 +3,8 @@
 .comments-modal__author h5 {
   font-size: 15px;
   font-weight: bold; }
+.comments-modal__handle {
+  display: flex; }
 .comments-modal__text textarea {
   min-height: 40px;
   width: 80%; }
@@ -15,6 +17,11 @@
   font-size: 15px; }
   .comments-modal__delete a {
     color: #8d8d8d;
+    margin-left: 5px; }
+.comments-modal__save {
+  font-size: 15px; }
+  .comments-modal__save a {
+    color: #497807;
     margin-left: 5px; }
 
 /*# sourceMappingURL=CommentsModal.css.map */

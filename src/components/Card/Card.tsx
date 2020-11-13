@@ -1,33 +1,40 @@
-import React, {ReactNode} from "react";
+import React from "react";
 import './Card.scss';
-import { ICards, IComments } from "../../interfaces/interfaces";
 import { useModal } from "react-modal-hook";
+import {useSelector} from "react-redux";
+import {selectCardByCardId, selectCommentByCardId} from "../../ducks";
+import {CardModal} from "../CardModal";
+import {Comments} from "../Comments";
+import {RootStateI} from "../../interfaces/interfaces";
 
 interface CardProps {
-    card: ICards,
-    comments: Array<IComments>,
-    render: () => ReactNode
-    renderCardModal: any
-
+    cardId: string,
 }
 
 
-export const Card: React.FC<CardProps> = ({card, comments, render, renderCardModal}) => {
+export const Card: React.FC<CardProps> = ({cardId}) => {
 
+    const card = useSelector((state: RootStateI) => selectCardByCardId(state, cardId));
+    const commentsCard = useSelector((state: RootStateI) => selectCommentByCardId(state, cardId));
 
     const [showModal, hideModal] = useModal(() => (
-        renderCardModal(hideModal)
-    ), [renderCardModal]);
+    <CardModal
+        hideModal={hideModal}
+        cardId={cardId}
+
+    />
+    ), [cardId]);
 
 
     return (
 
              <div onClick={showModal} className="cards">
                 <div className="cards__title">
-                    <p>{card.title}</p>
+                    <p>{card?.title}</p>
                 </div>
                 <div className="cards__components">
-                    {comments.length > 0 && render()}
+                    {commentsCard.length > 0 &&
+                    <Comments commentsCount={commentsCard.length} />}
                 </div>
             </div>
 

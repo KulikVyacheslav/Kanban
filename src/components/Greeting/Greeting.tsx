@@ -1,13 +1,17 @@
 import React, {useState} from 'react';
 import './Greeting.scss';
+import {useDispatch} from "react-redux";
+import { changeName } from 'ducks/Profile/profileSlice';
+
 
 interface GreetingProps {
-    handlerName(name: string): void
+
 }
 
-export const Greeting: React.FC<GreetingProps> = (props) => {
+export const Greeting: React.FC<GreetingProps> = () => {
 
-    const {handlerName} = props;
+    const dispatch = useDispatch();
+
     const [name, setName] = useState<string>('');
 
     const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +21,7 @@ export const Greeting: React.FC<GreetingProps> = (props) => {
     };
     const handlerSave = (event: React.MouseEvent) => {
         event.preventDefault();
-        handlerName(name);
+        dispatch(changeName(name));
     };
 
     return (
