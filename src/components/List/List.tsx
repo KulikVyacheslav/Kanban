@@ -1,17 +1,20 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, SetStateAction, Dispatch} from 'react';
 import './List.scss';
 import {changeListTitle, selectLists} from '../../ducks';
 import {useDispatch, useSelector} from "react-redux";
-import {changeToggle, selectToogle} from "../../ducks";
 import {IDBoardState} from 'types/types';
 import {addCard, selectCards} from 'ducks/Cards/cardsSlice';
 import {Card} from "../Card";
+import {ToggleAddButton} from "../../interfaces/interfaces";
 
 interface ListProps {
-    listId: string
+    listId: string,
+    toggleAddCardButton: ToggleAddButton,
+    setToggleAddCardButton: Dispatch<SetStateAction<ToggleAddButton>>
+
 }
 
-export const List: React.FC<ListProps> = ({listId}) => {
+export const List: React.FC<ListProps> = ({listId, toggleAddCardButton, setToggleAddCardButton}) => {
 
     const [titleCards, setTitleCards] = useState<string>('');
 
@@ -23,28 +26,30 @@ export const List: React.FC<ListProps> = ({listId}) => {
     const cards = useSelector(selectCards);
     const cardsCurrentCard = cards.filter(card => card.idList === listId);
 
-    const toggleAddCardButton = useSelector(selectToogle);
-
     const toggleHandlerAddButton = useCallback((id: IDBoardState): void => {
 
         if (id !== toggleAddCardButton.id && toggleAddCardButton.id !== null) {
-            dispatch(changeToggle({
-                state: toggleAddCardButton.state,
-                id
-            }));
+            setToggleAddCardButton(state => {
+                return {
+                    state: state.state,
+                        id
+                };
+            });
         } else {
-            dispatch(changeToggle({
-                state: !toggleAddCardButton.state,
-                id
-            }));
+            setToggleAddCardButton(state => {
+                return {
+                    state: !state.state,
+                    id
+                };
+            });
         }
         if (id === null) {
-            dispatch(changeToggle({
+            setToggleAddCardButton({
                 state: false,
                 id: null
-            }));
+            });
         }
-    }, [toggleAddCardButton, dispatch]);
+    }, [setToggleAddCardButton, toggleAddCardButton.id]);
 
     const handlerBtnAdd = useCallback((event: React.MouseEvent<HTMLButtonElement>): void => {
         event.stopPropagation();

@@ -1,4 +1,4 @@
-import {createSlice, nanoid, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {IComments, ICommentsState, RootStateI} from "../../interfaces/interfaces";
 import {
     addComment,
@@ -117,5 +117,5 @@ const commentsSlice = createSlice({
 });
 
 export const selectComments = (state: RootStateI) => state.comments.comments;
-export const {} = commentsSlice.actions;
+//export const {} = commentsSlice.actions;
 export const commentsReducer =  commentsSlice.reducer;
