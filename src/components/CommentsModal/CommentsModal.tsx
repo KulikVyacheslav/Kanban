@@ -1,7 +1,12 @@
 import React, {useCallback, useState} from 'react';
 import './CommentsModal.scss';
-import {changeCommentById, deleteCommentById, selectComments} from 'ducks';
+import {
+    changeCommentById,
+    deleteCommentById,
+    selectCommentByCommentId
+} from 'ducks';
 import {useDispatch, useSelector} from "react-redux";
+import {RootStateI} from "../../interfaces/interfaces";
 
 interface CommentsModalProps {
     commentId: string
@@ -11,8 +16,8 @@ export const CommentsModal: React.FC<CommentsModalProps> = ({ commentId }) => {
 
 
     const dispatch = useDispatch();
-    const comments = useSelector(selectComments);
-    const comment = comments.find( comment => comment.id === commentId);
+    const comment = useSelector((state: RootStateI) => selectCommentByCommentId(state, commentId));
+
     const  [commentText, setCommentText]  = useState<string>(comment?.text!);
 
     const [toggleChangeComment, setToggleChangeComment] = useState<boolean>(false);

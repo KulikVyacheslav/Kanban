@@ -117,5 +117,7 @@ const commentsSlice = createSlice({
 });
 
 export const selectComments = (state: RootStateI) => state.comments.comments;
+export const selectCommentByCardId = (state: RootStateI, cardId: string) => state.comments.comments.filter( comment => comment.idCard === cardId);
+export const selectCommentByCommentId = (state: RootStateI, commentId: string) => state.comments.comments.find( comment => comment.id === commentId);
 //export const {} = commentsSlice.actions;
 export const commentsReducer =  commentsSlice.reducer;

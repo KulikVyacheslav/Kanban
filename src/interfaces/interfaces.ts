@@ -55,7 +55,6 @@ export interface RootStateI {
     lists: Array<ILists>,
     cards: Array<ICards>,
     comments: ICommentsState,
-    toggleAddCardButton: ToggleAddButton,
     profile: IProfile
 }
 

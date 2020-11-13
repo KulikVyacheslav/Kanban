@@ -59,5 +59,7 @@ const cardsSlice = createSlice({
 });
 
 export const selectCards = (state: RootStateI) => state.cards;
+export const selectCardByCardId = (state: RootStateI, cardId: string) => state.cards.find( card => card.id === cardId);
+export const selectCardByListId = (state: RootStateI, listId: string) => state.cards.filter( card => card.idList === listId);
 export const {addCard, deleteCard, changeCardTitle, changeCardDescription} = cardsSlice.actions;
 export const cardsReducer = cardsSlice.reducer;

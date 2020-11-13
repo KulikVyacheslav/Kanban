@@ -60,6 +60,7 @@ const listSlice = createSlice({
 });
 
 export const selectLists = (state: RootStateI) => state.lists;
+export const selectList = (state: RootStateI, listId: string) => state.lists.find( list => list.id === listId);
 
 export const { addList, deleteList, changeListTitle } = listSlice.actions;
 export const listReducer =  listSlice.reducer;
