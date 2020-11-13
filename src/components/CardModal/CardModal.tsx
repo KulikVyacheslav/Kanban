@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import './CardModal.scss';
 import close from './close.svg';
 import cardIcon from './card.svg';
@@ -6,13 +6,19 @@ import description from './description.svg';
 import commentsIcon from './comments.svg';
 
 import ReactModal from "react-modal";
-import {changeCardDescription, changeCardTitle, deleteCard, addComment, selectCards} from "../../ducks";
-import {selectComments} from 'ducks/Comments/commentsSlice';
+import {
+    changeCardDescription,
+    changeCardTitle,
+    deleteCard,
+    addComment,
+    selectCardByCardId,
+    selectList, selectCommentByCardId
+} from "../../ducks";
 import {CommentsModal} from "../CommentsModal";
 import {useDispatch, useSelector} from "react-redux";
 import {selectProfile} from "../../ducks";
-import {selectLists} from "../../ducks";
 import {nanoid} from "@reduxjs/toolkit";
+import {RootStateI} from "../../interfaces/interfaces";
 
 interface CardModalProps {
     hideModal: any,
@@ -27,13 +33,10 @@ export const CardModal: React.FC<CardModalProps> = ({hideModal, cardId}) => {
     const [toggleDescCard, setToggleDescCard] = useState<boolean>(false);
     const [newComment, setNewComment] = useState<string>('');
 
-    const cards = useSelector(selectCards);
     const profile = useSelector(selectProfile);
-    const card = cards.find(card => card.id === cardId);
-    const lists = useSelector(selectLists);
-    const listCards = lists.find(list => list.id === card?.idList);
-    const comments = useSelector(selectComments);
-    const commentsCard = comments.filter(comment => comment.idCard === card?.id);
+    const card = useSelector((state: RootStateI) => selectCardByCardId(state, cardId));
+    const listCards = useSelector((state: RootStateI) => selectList(state, card?.idList!));
+    const commentsCard = useSelector((state: RootStateI) => selectCommentByCardId(state, cardId));
     const dispatch = useDispatch();
 
 
@@ -79,20 +82,8 @@ export const CardModal: React.FC<CardModalProps> = ({hideModal, cardId}) => {
 
     }, [dispatch, card?.id, hideModal]);
 
-    useEffect(() => {
-        const handleEsc = (event: any) => {
-            if (event.key === 'Escape') {
-                hideModal();
-            }
-        };
-        window.addEventListener('keydown', handleEsc);
-        return () => {
-            window.removeEventListener('keydown', handleEsc);
-        };
-    }, [hideModal]);
-
     return (
-        <ReactModal isOpen className="card-modal">
+        <ReactModal onRequestClose={hideModal} isOpen className="card-modal">
 
             <div onClick={handlerToggleCardsReset} className="card-modal__content">
                 <div onClick={handlerCloseModal} className="card-modal__close">

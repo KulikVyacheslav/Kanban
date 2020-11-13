@@ -2,10 +2,10 @@ import React from "react";
 import './Card.scss';
 import { useModal } from "react-modal-hook";
 import {useSelector} from "react-redux";
-import {selectCards} from "../../ducks";
+import {selectCardByCardId, selectCommentByCardId} from "../../ducks";
 import {CardModal} from "../CardModal";
-import {selectComments} from "../../ducks";
 import {Comments} from "../Comments";
+import {RootStateI} from "../../interfaces/interfaces";
 
 interface CardProps {
     cardId: string,
@@ -14,10 +14,8 @@ interface CardProps {
 
 export const Card: React.FC<CardProps> = ({cardId}) => {
 
-    const cards = useSelector(selectCards);
-    const card = cards.find( card => card.id === cardId);
-    const comments = useSelector(selectComments);
-    const commentsCard = comments.filter( comment => comment.idCard === card?.id);
+    const card = useSelector((state: RootStateI) => selectCardByCardId(state, cardId));
+    const commentsCard = useSelector((state: RootStateI) => selectCommentByCardId(state, cardId));
 
     const [showModal, hideModal] = useModal(() => (
     <CardModal

@@ -1,11 +1,11 @@
 import React, {useState, useCallback, SetStateAction, Dispatch} from 'react';
 import './List.scss';
-import {changeListTitle, selectLists} from '../../ducks';
+import {changeListTitle, selectCardByListId, selectList} from '../../ducks';
 import {useDispatch, useSelector} from "react-redux";
 import {IDBoardState} from 'types/types';
-import {addCard, selectCards} from 'ducks/Cards/cardsSlice';
+import {addCard} from 'ducks/Cards/cardsSlice';
 import {Card} from "../Card";
-import {ToggleAddButton} from "../../interfaces/interfaces";
+import {RootStateI, ToggleAddButton} from "../../interfaces/interfaces";
 
 interface ListProps {
     listId: string,
@@ -20,11 +20,8 @@ export const List: React.FC<ListProps> = ({listId, toggleAddCardButton, setToggl
 
     const dispatch = useDispatch();
 
-    const lists = useSelector(selectLists);
-    const list = lists.find(list => list.id === listId);
-
-    const cards = useSelector(selectCards);
-    const cardsCurrentCard = cards.filter(card => card.idList === listId);
+    const list = useSelector((state: RootStateI) => selectList(state, listId));
+    const cardsCurrentCard = useSelector((state: RootStateI) => selectCardByListId(state, listId));
 
     const toggleHandlerAddButton = useCallback((id: IDBoardState): void => {
 
