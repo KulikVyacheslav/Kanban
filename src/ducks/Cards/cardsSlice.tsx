@@ -26,7 +26,7 @@ const cardsSlice = createSlice({
     name: 'cards',
     initialState,
     reducers: {
-        addNewCard: {
+        addCard: {
             reducer(state, action: PayloadAction<ICards>) {
                 state.push(action.payload);
             },
@@ -45,12 +45,12 @@ const cardsSlice = createSlice({
             const indCard = state.findIndex(card => card.id === action.payload);
             state.splice(indCard, 1);
         },
-        changeTitleCards: (state, action: PayloadAction<{ id: string, title: string }>) => {
+        changeCardTitle: (state, action: PayloadAction<{ id: string, title: string }>) => {
             const {id, title} = action.payload;
             const indCard = state.findIndex(card => card.id === id);
             state[indCard].title = title;
         },
-        changeDescriptionCard: (state, action: PayloadAction<{ id: string, description: string }>) => {
+        changeCardDescription: (state, action: PayloadAction<{ id: string, description: string }>) => {
             const {id, description} = action.payload;
             const indCard = state.findIndex(card => card.id === id);
             state[indCard].description = description;
@@ -59,5 +59,5 @@ const cardsSlice = createSlice({
 });
 
 export const selectCards = (state: RootStateI) => state.cards;
-export const {addNewCard, deleteCard, changeTitleCards, changeDescriptionCard} = cardsSlice.actions;
+export const {addCard, deleteCard, changeCardTitle, changeCardDescription} = cardsSlice.actions;
 export const cardsReducer = cardsSlice.reducer;

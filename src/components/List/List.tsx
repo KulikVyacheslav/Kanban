@@ -1,10 +1,10 @@
 import React, {useState, useCallback} from 'react';
 import './List.scss';
-import {changeTitleList, selectLists} from '../../ducks';
+import {changeListTitle, selectLists} from '../../ducks';
 import {useDispatch, useSelector} from "react-redux";
 import {changeToggle, selectToogle} from "../../ducks";
 import {IDBoardState} from 'types/types';
-import {addNewCard, selectCards} from 'ducks/Cards/cardsSlice';
+import {addCard, selectCards} from 'ducks/Cards/cardsSlice';
 import {Card} from "../Card";
 
 interface ListProps {
@@ -52,13 +52,13 @@ export const List: React.FC<ListProps> = ({listId}) => {
     }, [toggleHandlerAddButton, list?.id]);
 
     const handlerTitleList = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
-        dispatch(changeTitleList(list?.id as string, event.currentTarget.value));
+        dispatch(changeListTitle(list?.id as string, event.currentTarget.value));
     }, [dispatch, list?.id]);
 
 
     const handlerBtnAddToList = useCallback((event: React.MouseEvent<HTMLButtonElement>): void => {
         event.preventDefault();
-        dispatch(addNewCard(list?.id, titleCards));
+        dispatch(addCard(list?.id, titleCards));
         setTitleCards('');
     }, [dispatch, list?.id, titleCards]);
 
@@ -70,7 +70,7 @@ export const List: React.FC<ListProps> = ({listId}) => {
     const handlerEnterKey = useCallback((event: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (event.key === 'Enter') {
             event.preventDefault();
-            dispatch(addNewCard(list?.id, titleCards));
+            dispatch(addCard(list?.id, titleCards));
             event.currentTarget.value = '';
             setTitleCards('');
         }

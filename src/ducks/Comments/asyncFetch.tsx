@@ -1,8 +1,8 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {IComments} from "../../interfaces/interfaces";
 
-export const fetchAllComments = createAsyncThunk(
-    'comments/fetchAllComments',
+export const getAllComments = createAsyncThunk(
+    'comments/getAllComments',
     async () => {
         const response = await fetch(`http://localhost:3005/comments`);
         if (response.ok) {
@@ -13,8 +13,8 @@ export const fetchAllComments = createAsyncThunk(
     }
 );
 
-export const fetchCommentById = createAsyncThunk(
-    'comments/fetchCommentById',
+export const getCommentById = createAsyncThunk(
+    'comments/getCommentById',
     async (commentId: string, thunkApi) => {
         const response = await fetch(`http://localhost:3005/comments/${commentId}`);
         if (response.ok) {
@@ -25,8 +25,8 @@ export const fetchCommentById = createAsyncThunk(
     }
 );
 
-export const fetchAddNewComment = createAsyncThunk(
-    'comments/fetchAddNewComment',
+export const addComment = createAsyncThunk(
+    'comments/addComment',
     async (commentParams: IComments, thunkApi) => {
         const response = await fetch(`http://localhost:3005/comments`, {
             method: 'POST',
@@ -43,8 +43,8 @@ export const fetchAddNewComment = createAsyncThunk(
     }
 );
 
-export const fetchDeleteCommentById = createAsyncThunk(
-    'comments/fetchDeleteCommentById',
+export const deleteCommentById = createAsyncThunk(
+    'comments/deleteCommentById',
     async (commentId: string, thunkApi) => {
         const response = await fetch(`http://localhost:3005/comments/${commentId}`, {
             method: 'DELETE',
@@ -57,11 +57,11 @@ export const fetchDeleteCommentById = createAsyncThunk(
     }
 );
 
-export const fetchChangeCommentById = createAsyncThunk<
+export const changeCommentById = createAsyncThunk<
     IComments,
     IComments
     >(
-    'comments/fetchChangeCommentById',
+    'comments/changeCommentById',
     async (commentParams, thunkApi) => {
         const response = await fetch(`http://localhost:3005/comments/${commentParams.id}`, {
             method: 'PATCH',

@@ -37,11 +37,11 @@ const listSlice = createSlice({
                 };
              }
         },
-        removeList: (state, action: PayloadAction<string>) => {
+        deleteList: (state, action: PayloadAction<string>) => {
             state = state.filter( list => list.id !== action.payload);
             //TODO
         },
-        changeTitleList: {
+        changeListTitle: {
             reducer(state, action: PayloadAction<ILists>) {
                 const {id, title} = action.payload;
                 const indList = state.findIndex(list => list.id === id);
@@ -61,5 +61,5 @@ const listSlice = createSlice({
 
 export const selectLists = (state: RootStateI) => state.lists;
 
-export const { addList, removeList, changeTitleList } = listSlice.actions;
+export const { addList, deleteList, changeListTitle } = listSlice.actions;
 export const listReducer =  listSlice.reducer;
